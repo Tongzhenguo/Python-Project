@@ -23,4 +23,4 @@ def readEssay(self):
         self.feature = self.feature[ : self.dimension]
         for word in self.feature :
             print word,
-readEssay
+
