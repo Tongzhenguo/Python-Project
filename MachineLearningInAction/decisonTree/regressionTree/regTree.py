@@ -26,9 +26,14 @@ def binSplitDataSet(dataSet,feature,value):
     mat1 = dataSet[nonzero(dataSet[:, feature] <= value)[0],:][0]
     return mat0,mat1
 def regLeaf(dataSet):
+    """返回数据集的平均值
+    :param dataSet:
+    :return:
+    """
     return mean(dataSet)
 def regErr(dataSet):
-    """计算总方差
+    """计算总误差
+    shape()返回矩阵的行列数的元组，var()计算平均误差
     :param dataSet:
     :return:
     """
@@ -37,34 +42,40 @@ def regErr(dataSet):
 def chooseBestSplit(dataSet, leafType=regLeaf, errType=regErr, ops=(1,4)):
     """函数要完成两件事：选择最佳分割，生成相应的叶结点
     :param dataSet:数据集
-    :param leafType:叶结点类型，默认是回归叶
-    :param errType:划分指标的计算方式，默认是总方差
-    :param ops:用户东一的参数构成的元组
-    :return:
+    :param leafType:叶结点类型，默认是回归叶，叶结点以均值标记
+    :param errType:划分指标的计算方式，默认是总误差
+    :param ops:用户定义的参数构成的元组，来指定停止条件，一个是最小误差下降值，一个是最少样本数
+    :return:最佳划分（bestIndex,bestValue）或者叶结点（None,leafType(dataSet)）
     """
-    tolS = ops[0]
-    tolN = ops[1]
+    tolS = ops[0]##误差阀值
+    tolN = ops[1]##划分的最少样本数
+    ## T是矩阵的转置
+    ## 不同剩余特征值的数目，如果数目为一，无需分割成两个子集
     if(len(set(dataSet[:,-1].T.tolist()[0] == 1))):
         return  None,leafType(dataSet)
-    m,n = shape(dataSet)
+    m,n = shape(dataSet)##矩阵的行列数
     S = errType
-    bestS = inf
+    bestS = inf##默认为最大值
     beatIndex = 0
     bestValue = 0
     for featIndex in range(n-1):
         for splitVal in set(dataSet[:,featIndex]):
             mat0,mat1 = binSplitDataSet(dataSet,featIndex,splitVal)
+            ## 当划分子集小于最少样本数，跳过
             if(shape(mat0)[0] <tolN or shape(mat1)[0] <tolN):
                 continue
+            ## 计算最佳分割，计算的标准是左右子集的误差和最小，就是不确定性越低
             newS = errType(mat0) + errType(mat1)
             if(newS < bestS):
                 bestIndex = featIndex
                 bestValue = splitVal
                 bestS = newS
+    ##误差下降小于阀值，生成叶结点
     if(S - bestS) < tolS:
         return None,leafType
+    ##划分子集小于最少样本数，生成叶结点
     mat0,mat1 = binSplitDataSet(dataSet, bestIndex, bestValue)
-    if(shape(mat0)[0] <tolN or shape(mat0)[0] <tolN):
+    if(shape(mat0)[0] <tolN or shape(mat1)[0] <tolN):
         return None,leafType(dataSet)
     return bestIndex,bestValue
 
@@ -74,7 +85,7 @@ def createTree(dataSet,leafType,errType,ops=(1,4)):
     :param dataSet:数据集
     :param leafType:叶子类型，回归树是是一个常数，模型树是一个线性方程
     :param errType:误差计算函数
-    :param ops:包含树构建所需其他参数的元组
+    :param ops:包含树构建所需其他参数的元组，指定停止条件，一是下降阀值，二是子集最少样本数
     :return:决策树
     """
     feat,val = chooseBestSplit(dataSet,leafType,errType,ops)
