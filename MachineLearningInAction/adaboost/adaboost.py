@@ -111,8 +111,8 @@ def adaBoostTrainDS(dataArr, classLabels, numIt=40):
         print "total error: ", errorRate, "\n"
         if errorRate == 0.0:
             break
-    return weakClassArr
-
+    # return weakClassArr
+    return weakClassArr, aggClassEst
 
 # (datMat, classLabels) = loadSimpleData()
 # classifierArray = adaBoostTrainDS(datMat, classLabels, 9)
@@ -182,7 +182,7 @@ def plotROC(predStrengths, classLabels):
     ySum = 0.0  # variable to calculate AUC
     numPosClas = sum(array(classLabels) == 1.0)
     yStep = 1 / float(numPosClas);
-    xStep = 1 / float(len(classLabels) - numPosClas)
+    xStep = 1 / float(len(classLabels) - numPosClas);
     sortedIndicies = predStrengths.argsort()  # get sorted index, it's reverse
     fig = plt.figure()
     fig.clf()
@@ -206,3 +206,8 @@ def plotROC(predStrengths, classLabels):
     ax.axis([0, 1, 0, 1])
     plt.show()
     print "the Area Under the Curve is: ", ySum * xStep
+
+
+datArr, labelArr = loadDataSet('F:\code\Python-Project\dataset\horseColicTraining2.txt')
+classifierArray, aggClassEst = adaBoostTrainDS(datArr, labelArr, 10)
+plotROC(aggClassEst, labelArr)
