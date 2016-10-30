@@ -158,3 +158,44 @@ def findPrefixPath(basePat, treeNode):
 # myFPtree,myHeaderTab = createTree(initSet, 3)
 # print findPrefixPath("x",myHeaderTab["x"][1])
 # print findPrefixPath("r",myHeaderTab["r"][1])
+
+##递归查找频繁项集的mineTree
+def mineTree(inTree, headerTable, minSup, preFix, freqItemList):
+    """递归查找频繁项集的mineTree
+    :param inTree: FP树
+    :param headerTable:头节点字典
+    :param minSup: 最小支持度
+    :param preFix: 前缀路径
+    :param freqItemList: 频繁项集列表
+    :return:空
+    """
+    ##从头指针表的底端开始
+    bigL = [v[0] for v in sorted(headerTable.items(), key=lambda p: p[1])]  ##默认顺序是升序
+    for basePat in bigL:
+        newFreqSet = preFix.copy()
+        newFreqSet.add(basePat)
+        freqItemList.append(newFreqSet)
+        condPattBases = findPrefixPath(basePat, headerTable[basePat][1])  ##创建条件基
+        myCondTree, myHead = createTree(condPattBases, minSup)
+        if (myHead != None):  ##挖掘条件FP树
+            print "conditional tree for: ", newFreqSet
+            myCondTree.disp(1)
+            mineTree(myCondTree, myHead, minSup, newFreqSet, freqItemList)
+
+
+# simpleDat = loadSimpleDat()
+# initSet = createInitSet(simpleDat)
+# myFPtree,myHeaderTab = createTree(initSet, 3)
+# freqItems = []
+# print mineTree(myFPtree,myHeaderTab,3,set([]),freqItems)
+# print freqItems
+
+##从新闻网站点击流中挖掘
+parsDat = [line.split() for line in open('F:\code\Python-Project\dataset\kosarak.dat').readlines()]
+init_set = createInitSet(parsDat)
+## 构建FP树,从中寻找那些至少被10w人浏览过的新闻报道
+myFPtree, myHeaderTab = createTree(init_set, 100000)
+myFreqList = []
+mineTree(myFPtree, myHeaderTab, 100000, set([]), myFreqList)
+print len(myFreqList)
+print myFreqList
