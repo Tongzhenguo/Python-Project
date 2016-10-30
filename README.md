@@ -4,4 +4,8 @@
   SGD(随机梯度下降算法)的python实现
   
   TFIDF的python实现
+
+  <<机器学习实战>>
+
+  leetcode刷题
   

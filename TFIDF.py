@@ -1,9 +1,10 @@
 import math
+
 import nltk as nltk
 
-
 __author__ = 'YYT'
-#TF-IDFµÄÊµÏÖ
+
+
 def ComputeFreq(wordlist, text):
     result = []
     for word in wordlist:

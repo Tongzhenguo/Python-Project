@@ -1,14 +1,11 @@
-import random
 import math
+import random
 
 
 def stocGradDescent(self) :
-        """
-        计算权重系数向量
-        """
         m, n = weiCount(self.train_vec_list)
         for j in range(10):
-            dataIndex = range(m)#生成一个长度为1500左右的list
+            dataIndex = range(m)
             for index in range(m) :
                 alpha = 4 / (1.0 + j + index) + 0.01
                 randIndex = int(random.uniform(0, len(dataIndex)))
@@ -22,10 +19,8 @@ def sigmoid(vecX) :
     return 1.0 / (1 + math.exp(-vecX))
 
 def weiCount(data_mat) :
-#返回train_vec_list行数和列数
     return len(data_mat), len(data_mat[0])
 def sumArray(lineVec, weights) :
-    #两向量的内积
     total = 0
     for index in range(len(lineVec)) :
         total += (lineVec[index] * weights[index])
