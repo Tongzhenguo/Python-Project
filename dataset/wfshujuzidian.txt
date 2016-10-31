@@ -1,0 +1,6 @@
+﻿jszh驾驶证号
+wfbh违法编号	
+wfsj违法时间	
+wfxw违法行为	
+wfjf违法掉分	
+wfnr违法内容
