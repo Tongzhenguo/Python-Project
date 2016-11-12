@@ -16,7 +16,7 @@ import math
 #     return W
 
 def UserSimilarity(train):
-    """bulid inverse table for item_users
+    """compute user similarity matrix
     :param train:
     :return:
     """
@@ -26,7 +26,7 @@ def UserSimilarity(train):
             if i not in item_users:
                 item_users[i] = set()
             item_users[i].add(u)
-    # calculate co-reted items between users
+    # calculate co-rated items between users
     C = dict()
     N = dict()
     for (i, users) in item_users.items():
@@ -54,10 +54,30 @@ def UserSimilarity(train):
     return W
 
 
+def Recommend(user, train, W, K=3):
+    rank = dict()
+    interacted_items = train[user]
+    neighbour = W[user]
+    for v, wuv in sorted(neighbour.items(), key=lambda p: p[1], reverse=True)[0:K]:
+        for i, rvi in train[v].items():
+            if i in interacted_items:
+                # we should filter items user interacted before
+                continue
+            if (rank.has_key(i)):
+                rank[i] += wuv * rvi
+            else:
+                rank.setdefault(i, wuv * rvi)
+    return rank
+
+
+# test
 train = {
-    "A": {"a": None, "b": None, "d": None},
-    "B": {"a": None, "c": None},
-    "C": {"b": None, "e": None},
-    "D": {"c": None, "d": None, "e": None}
+    "A": {"a": 1, "b": 1, "d": 1},
+    "B": {"a": 1, "c": 1},
+    "C": {"b": 1, "e": 1},
+    "D": {"c": 1, "d": 1, "e": 1}
 }
-print(UserSimilarity(train))
+# print(UserSimilarity(train))
+
+# recommend_items = Recommend("A", train, UserSimilarity(train))
+# print recommend_items
