@@ -45,7 +45,6 @@ def Recommend(train, user, W, K=3):
     :param K: 相似度最高的k个物品
     :return:k个物品（包含物品和用户u对物品j的兴趣度）
     """
-
     rank = dict()
     reason = dict()
     ru = train[user]
