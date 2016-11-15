@@ -54,6 +54,7 @@ def LatentFactorModel(user_items, F, N, alpha, _lambda):
     :param _lambda:正则化参数
     :return:
     """
+
     [P, Q] = InitModel(user_items, F)
     for step in range(0, N):
         for user, items in user_items.items():
