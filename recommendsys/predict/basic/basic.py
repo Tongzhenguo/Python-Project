@@ -8,6 +8,7 @@ class basic:
         :param value:
         :return:
         """
+
         if (mydict.has_key(key)):
             mydict.setdefault(key, value)
         mydict[key] = value
