@@ -1,4 +1,5 @@
 # coding=utf-8
+
 class basic:
     def AddToDict(self, mydict, key, value):
         """封装字典插入方法

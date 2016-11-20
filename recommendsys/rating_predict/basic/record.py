@@ -1,6 +1,7 @@
 # coding=utf-8
 ## 定义记录类
 
+
 class record:
     def __init__(self, user, item, score=0, test=0, predict=0):
         """
