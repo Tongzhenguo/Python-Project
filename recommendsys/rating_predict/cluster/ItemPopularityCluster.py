@@ -1,6 +1,7 @@
 # coding=utf-8
 ## 根据物品流行度分类
 from recommendsys.rating_predict.basic.basic import basic
+from recommendsys.rating_predict.basic.record import record
 from recommendsys.rating_predict.cluster.Cluster import Cluster
 
 
@@ -32,16 +33,17 @@ class ItemPopularityCluster(Cluster):
         else:
             return self.group[item]
 
-            # test
-            # records = []
-            # f_train = open("F:\code\Python-Project\dataset\guess your love\\train.csv")
-            # for line in f_train.readlines():
-            #     ss = line.strip("\n").split(",")
-            #     records.append(record(user=ss[0], item=ss[1], score=ss[2],test=0))
-            # f_test = open("F:\code\Python-Project\dataset\guess your love\\test.csv")
-            # for line in f_test.readlines():
-            #     ss = line.strip().split(",")
-            #     records.append(record(user=ss[0], item=ss[1], score=0,test=1))
-            #
-            # item_popularity_cluster = ItemPopularityCluster(records)
-            # print item_popularity_cluster.group.values()
+
+# test
+records = []
+f_train = open("F:\code\Python-Project\dataset\guess your love\\train.csv")
+for line in f_train.readlines():
+    ss = line.strip("\n").split(",")
+    records.append(record(user=ss[0], item=ss[1], score=ss[2], test=0))
+f_test = open("F:\code\Python-Project\dataset\guess your love\\test.csv")
+for line in f_test.readlines():
+    ss = line.strip().split(",")
+    records.append(record(user=ss[0], item=ss[1], score=0, test=1))
+
+item_popularity_cluster = ItemPopularityCluster(records)
+print item_popularity_cluster.group.values()
