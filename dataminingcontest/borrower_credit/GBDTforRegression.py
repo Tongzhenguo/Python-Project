@@ -38,10 +38,12 @@ X_train, y_train = X[:offset], y[:offset]
 X_test, y_test = X[offset:], y[offset:]
 
 #Fit regression model
-params = {'n_estimators': 100, 'max_depth': 5, 'min_samples_split': 2,
-          'learning_rate': 0.01, 'loss': 'ls'}
+params = {'n_estimators': 100, 'max_depth': 5, 'min_samples_split': 10,
+          'learning_rate': 0.01, 'loss': 'ls',"warm_start":"True"}
 clf = ensemble.GradientBoostingRegressor(**params)
 clf.fit(X_train, y_train)
+from sklearn.externals import joblib
+joblib.dump(clf, "train_model.m")
 mse = mean_squared_error(y_test, clf.predict(X_test))
 print("MSE: %.4f" % mse)
 
@@ -85,3 +87,7 @@ plt.show()
 ## store top 70 importance feature
 pd.DataFrame(X[:,sorted_id],index=list(range(X.shape[0])),columns=sorted_id).\
     to_csv("F:\code\Python-Project\dataset\\borrower_credit\select_feature_train_x.csv")
+
+pd.DataFrame(test_x[:,sorted_id],index=list(range(test_x.shape[0])),columns=sorted_id).\
+    to_csv("F:\code\Python-Project\dataset\\borrower_credit\select_feature_test_x.csv")
+
