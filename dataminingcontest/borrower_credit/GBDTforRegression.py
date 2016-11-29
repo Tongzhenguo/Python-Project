@@ -10,9 +10,9 @@ from sklearn import ensemble
 from sklearn.metrics import mean_squared_error
 from sklearn.utils import shuffle
 #load data
-train_x_csv = pd.read_csv("F:\code\Python-Project\dataset\\borrower_credit\\train_x.csv")
-train_y_csv = pd.read_csv("F:\code\Python-Project\dataset\\borrower_credit\\train_y.csv")
-test_csv = pd.read_csv("F:\code\Python-Project\dataset\\borrower_credit\\test_x.csv")
+train_x_csv = pd.read_csv("dataset\\borrower_credit\\train_x.csv")
+train_y_csv = pd.read_csv("dataset\\borrower_credit\\train_y.csv")
+test_csv = pd.read_csv("dataset\\borrower_credit\\test_x.csv")
 test_x = test_csv.drop(test_csv.columns[[0]],axis=1).values
 
 #analysis data
@@ -84,10 +84,10 @@ plt.xlabel('Relative Importance')
 plt.title('Variable Importance')
 plt.show()
 
-## store top 70 importance feature
+## store top 69 importance feature
 pd.DataFrame(X[:,sorted_id],index=list(range(X.shape[0])),columns=sorted_id).\
-    to_csv("F:\code\Python-Project\dataset\\borrower_credit\select_feature_train_x.csv")
+    to_csv("dataset\\borrower_credit\select_feature_train_x.csv")
 
 pd.DataFrame(test_x[:,sorted_id],index=list(range(test_x.shape[0])),columns=sorted_id).\
-    to_csv("F:\code\Python-Project\dataset\\borrower_credit\select_feature_test_x.csv")
+    to_csv("dataset\\borrower_credit\select_feature_test_x.csv")
 
