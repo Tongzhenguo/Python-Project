@@ -5,6 +5,16 @@ from sklearn import preprocessing
 import numpy as np
 
 """
+    缺失值处理（填充负值，填充中值，填充众数，剔除，单独作为一个特征）
+"""
+
+
+"""
+    异常值处理（剔除）
+"""
+
+
+"""
     z-score:均值为0，方差为1(标准化)(基于列向量)
 """
 X_train = np.array([[ 1., -1.,  2.],\
@@ -74,3 +84,12 @@ from sklearn.preprocessing import PolynomialFeatures
 X = np.arange(6).reshape(3, 2)
 poly = PolynomialFeatures(2)
 print poly.fit_transform(X)
+
+
+
+"""
+    滤除方差小的数据(Removing features with low variance)
+"""
+from sklearn.feature_selection import VarianceThreshold
+sel = VarianceThreshold(threshold=(.8 * (1 - .8)))
+sel.fit_transform(X)
