@@ -153,23 +153,23 @@ df1 = df.reindex(index=dates[0:4], columns=list(df.columns) + ["E"])
 # print df.groupby(df["A"])
 
 ### 七、Reshaping
-## 1.Stack
-# tuples = list(zip(*[['bar', 'bar', 'baz', 'baz',
-#                      'foo', 'foo', 'qux', 'qux'],
-#                     ['one', 'two', 'one', 'two',
-#                     'one', 'two', 'one', 'two']]))
-# index = pd.MultiIndex.from_tuples(tuples, names=['first', 'second'])
-# df = pd.DataFrame(np.random.randn(8, 2), index=index, columns=['A', 'B'])
-# df2 = df[:4]
-# print df2
+# 1.Stack
+tuples = list(zip(*[['bar', 'bar', 'baz', 'baz',
+                     'foo', 'foo', 'qux', 'qux'],
+                    ['one', 'two', 'one', 'two',
+                    'one', 'two', 'one', 'two']]))
+index = pd.MultiIndex.from_tuples(tuples, names=['first', 'second'])
+df = pd.DataFrame(np.random.randn(8, 2), index=index, columns=['A', 'B'])
+df2 = df[:4]
+print df2
 # The stack function “compresses” a level in the DataFrame’s columns to produce either:
 # A Series, in the case of a simple column Index
 # A DataFrame, in the case of a MultiIndex in the columns
-# stacked = df2.stack()
-# print stacked
-# print stacked.unstack()
-# print stacked.unstack(1)
-# print stacked.unstack(0)
+stacked = df2.stack()
+print stacked
+print stacked.unstack()
+print stacked.unstack(1)
+print stacked.unstack(0)
 
 ## 2.数据透视表
 # print pd.pivot_table(df,values="D",index=["A","B"],columns="C")
