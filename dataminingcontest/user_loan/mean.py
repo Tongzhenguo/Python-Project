@@ -33,10 +33,9 @@ bill_mean.to_csv("E:/data/bill_mean.csv")
 browse_train = pd.read_csv(browse_train_path)
 browse_test = pd.read_csv(browse_test_path)
 browse= pd.concat([browse_train, browse_test])
-browse_n = browse[["uid","timestamp","view_type","count"]].groupby(["uid", "view_type"]).mean()
+browse_n = browse[["uid","view_type","count"]].groupby(["uid", "view_type"]).mean()
 browse_n = browse_n.unstack()
-browse_n.columns = ["type1","type2","type3","type4","type5","type6","type7","type8","type9","type10","type11",
-                    "count1","count2","count3","count4","count5","count6","count7","count8","count9","count10","count11"]
+browse_n.columns = ["count1","count2","count3","count4","count5","count6","count7","count8","count9","count10","count11"]
 ##缺失值0填充
 browse_n = browse_n.fillna(0)
 browse_n.to_csv("E:/data/browse_mean.csv")

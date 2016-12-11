@@ -1,8 +1,8 @@
 # coding=utf-8
 __author__ = 'arachis'
 
-from sklearn import preprocessing
 import numpy as np
+from sklearn import preprocessing
 
 """
     缺失值处理（填充负值，填充中值，填充众数，剔除，单独作为一个特征）
@@ -32,6 +32,9 @@ print X_scaled.std(axis=0)
 scaler = preprocessing.StandardScaler().fit(X_train)
 print scaler.transform(X_train)
 print scaler.transform(X_test)
+
+print scaler.mean_
+print scaler.scale_
 
 """
     min-max score：映射到区间[0,1]（最小-最大规范化）(基于列向量)
