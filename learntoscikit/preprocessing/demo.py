@@ -1,12 +1,20 @@
 # coding=utf-8
 __author__ = 'arachis'
 
-import numpy as np
 from sklearn import preprocessing
 
 """
     缺失值处理（填充负值，填充中值，填充众数，剔除，单独作为一个特征）
 """
+
+##直接使用pandas 中的异常值处理
+import pandas as pd
+import numpy as np
+dates = pd.date_range('20130101', periods=6)
+df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list("ABCD"))
+df1 = df.reindex(index=dates[0:4], columns=list(df.columns) + ["E"])
+# df1.fillna(-1)  ##填充负值
+df1.dropna() ## 剔除
 
 
 """
