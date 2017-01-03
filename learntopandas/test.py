@@ -1,4 +1,8 @@
 # coding=utf-8
+"""
+    翻译自：http://pandas.pydata.org/pandas-docs/stable/10min.html
+"""
+
 import numpy as np
 import pandas as pd
 
@@ -42,6 +46,7 @@ df2 = pd.DataFrame({"A": 1, "B": pd.Timestamp('20130102'), "C": pd.Series(1, ind
 # print df.sort_values(by="B")
 
 ### 三、选择
+##  推荐使用优化方法： .at, .iat, .loc, .iloc and .ix.
 ## 获取1.选择一个单独的列,这将会返回一个Series,等同于df.A
 # print df["A"]
 
