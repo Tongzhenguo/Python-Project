@@ -102,6 +102,10 @@ class Skiplist(object):
 
     def delete(self, key):
         """
+        首先找到我们要删除节点的位置，在查找时使用临时空间记录节点在每一级的位置。
+        接着就是逐层的链表删除操作。
+        最后记住要释放空间。
+        删除节点之后，如果最高层没有节点存在，那Skip List的层数相应的需要降下来。
         :return: Boolean 用于判断删除成功或失败
         """
         update = [None] * MAX_LEVEL
@@ -109,8 +113,7 @@ class Skiplist(object):
         q = None
         k = self.level
         i = k - 1
-        # 跟插入一样 找到要删除的位置
-        while i >= 0:
+        while i >= 0:# 跟插入一样 找到要删除的位置
             q = p.forward[i]
             while q and q.key < key:
                 p = q
@@ -136,7 +139,6 @@ class Skiplist(object):
     def search(self, key):
         """
         跳表搜索操作
-        :param key: 查找的关键字
         :return: 节点的 key & value & 节点所在的层数(最高的层数)
         """
         i = self.level - 1
