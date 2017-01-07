@@ -3,6 +3,7 @@
     跳表（skip list）
         原理：http://blog.sina.com.cn/s/blog_72995dcc01017w1t.html
         实现代码：http://www.cnblogs.com/wuditju/p/5995957.html
+        概率知识：http://www.cnblogs.com/arachis/p/distribution_stats_desc.html
 """
 import random
 
@@ -12,7 +13,7 @@ MAX_LEVEL = 4
 def randomLevel():
     """
     相当与做一次丢硬币的实验，如果遇到正面，继续丢，遇到反面，则停止
-    :return: random level
+    注：设抛硬币次数为k,则k~G(0.5)，从而有期望EK=2,几何分布可以参看http://www.cnblogs.com/arachis/p/distribution_stats_desc.html
     """
     k = 1
     while random.randint(1, 100) % 2:
