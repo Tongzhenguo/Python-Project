@@ -9,6 +9,7 @@ __author__ = 'arachis'
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy.stats as stats
 
 def calc(data):
     n = len(data)
@@ -48,6 +49,8 @@ def calc_statistics(x):
     kurt = (m4 - 4*mu*m3 +6*mu*mu*m2 - 4*mu**3*mu+mu**4) / sigma**4 - 3
     print '手动过计算均值、标准差、偏度、峰度：',mu,sigma,skew,kurt
 
+    # 使用系统函数验证
+    return np.mean(x),np.std(x),stats.skew(x),stats.kurtosis(x)
 
 if __name__ == "__main__":
     num = 10000
@@ -67,6 +70,7 @@ if __name__ == "__main__":
     info = r"$\mu=%.2f,\ \sigma=%.2f,\ skew=%.2f\ kurt=%.2f$" %(niu,sigma,skew,kurt)
     info2 = r"$\mu=%.2f,\ \sigma=%.2f,\ skew=%.2f\ kurt=%.2f$" % (niu2, sigma2, skew2, kurt2)
     plt.text(1,0.38,info,bbox=dict(facecolor='red',alpha=0.25))
+
     plt.text(1, 0.35, info2, bbox=dict(facecolor='green', alpha=0.25))
     plt.hist(data,30,normed=True,facecolor='r',alpha=0.9)
     plt.hist(data2, 60, normed=True, facecolor='g', alpha=0.8)
