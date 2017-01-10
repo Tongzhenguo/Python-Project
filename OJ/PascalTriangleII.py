@@ -22,12 +22,12 @@ class Solution(object):
 
     def comb(self,i, j):
         """
-        a(i,j) 等于组合数 C（i，j）,i,j从1开始
+        a(i,j) 等于组合数 C（i，j），其中 i>=j>=0
         实现：comb(4,2) = val * 4/2 * 3/1
         当然可以调库scipy.special的comb
         """
-        if (i < j) or (i < 0) or (j < 0):
-            return 0
+        if (j == i or j == 0):##直接定义C(i,i)=C(i,0)=1
+            return 1
         val = 1
         for k in xrange(i - j + 1, i + 1):
             val *= k
