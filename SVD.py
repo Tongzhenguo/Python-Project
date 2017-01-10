@@ -29,7 +29,7 @@ def rebuild_img(u, sigma, v, p): #p表示奇异值的百分比
     return np.rint(a).astype("uint8")
 
 if __name__ == '__main__':
-    img = Image.open('dog.jpg', 'r')
+    img = Image.open('1.png', 'r')
     a = np.array(img)
 
     for p in np.arange(0.1, 1, 0.1):
