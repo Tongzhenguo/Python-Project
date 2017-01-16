@@ -1,6 +1,10 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 
+"""
+    插值文档链接：https://docs.scipy.org/doc/scipy/reference/interpolate.html
+    拟合与插值的区别：知乎问答（https://www.zhihu.com/question/24276013）
+"""
 # 导入NumPy函数库，一般都是用这样的形式(包括别名np，几乎是约定俗成的)
 import numpy as np
 import matplotlib as mpl
@@ -13,17 +17,17 @@ import scipy.optimize as opt
 import scipy
 import matplotlib.pyplot as plt
 from scipy.stats import norm, poisson
-# from scipy.interpolate import BarycentricInterpolator
-# from scipy.interpolate import CubicSpline
+from scipy.interpolate import BarycentricInterpolator
+from scipy.interpolate import CubicSpline
 import math
 # import seaborn
 
 
-def residual(t, x, y):
+def residual(t, x, y): #二次函数的残差
     return y - (t[0] * x ** 2 + t[1] * x + t[2])
 
 
-def residual2(t, x, y):
+def residual2(t, x, y): #正弦函数的残差
     print t[0], t[1]
     return y - t[0]*np.sin(t[1]*x)
 
@@ -244,13 +248,13 @@ if __name__ == "__main__":
     # # 使用库函数unique
     # b = np.unique(a)
     # print '去重后：', b
-    # # 4.2.2 二维数组的去重，结果会是预期的么？
+    # 4.2.2 二维数组的去重，结果会是预期的么？
     # c = np.array(((1, 2), (3, 4), (5, 6), (1, 3), (3, 4), (7, 6)))
     # print '二维数组', c
-    # print '去重后：', np.unique(c)
-    # # 4.2.3 方案1：转换为虚数
-    # # r, i = np.split(c, (1, ), axis=1)
-    # # x = r + i * 1j
+    # # print '去重后：', np.unique(c)
+    # # # 4.2.3 方案1：转换为虚数
+    # r, i = np.split(c, (1, ), axis=1)
+    # x = r + i * 1j
     # x = c[:, 0] + c[:, 1] * 1j
     # print '转换成虚数：', x
     # print '虚数去重后：', np.unique(x)
@@ -267,46 +271,49 @@ if __name__ == "__main__":
     # print 'a = \n', a
     # print 'b = \n', b
     # print 'c = \n', c
-    # print 'axis = 0 \n', np.stack((a, b, c), axis=0)
-    # print 'axis = 1 \n', np.stack((a, b, c), axis=1)
-    # print 'axis = 2 \n', np.stack((a, b, c), axis=2)
+    # print 'axis = 0 \n', np.stack((a, b, c), axis=0) #按矩阵上下拼接
+    # print 'axis = 1 \n', np.stack((a, b, c), axis=1) #按行上下拼接
+    # print 'axis = 2 \n', np.stack((a, b, c), axis=2) #按元素上下拼接
 
     # 5.绘图
     # 5.1 绘制正态分布概率密度函数
-    # mu = 0
-    # sigma = 1
-    # x = np.linspace(mu - 3 * sigma, mu + 3 * sigma, 50)
-    # y = np.exp(-(x - mu) ** 2 / (2 * sigma ** 2)) / (math.sqrt(2 * math.pi) * sigma)
+    # mu = 0 #均值
+    # sigma = 1 #方差
+    # x = np.linspace(mu - 3 * sigma, mu + 3 * sigma, 51) #随机产生51个[-3,3]的等差数列,中间的数是0
+    # y = np.exp(-(x - mu) ** 2 / (2 * sigma ** 2)) / (math.sqrt(2 * math.pi) * sigma) #正太分布概率密度函数
     # print x.shape
     # print 'x = \n', x
     # print y.shape
     # print 'y = \n', y
-    # # plt.plot(x, y, 'ro-', linewidth=2)
-    # plt.plot(x, y, 'r-', x, y, 'go', linewidth=2, markersize=8)
+    # plt.plot(x, y, 'r-', x, y, 'go', linewidth=2, markersize=8) #红线绿点
     # plt.grid(True)
     # plt.show()
-
+    #
     mpl.rcParams['font.sans-serif'] = [u'SimHei']  #FangSong/黑体 FangSong/KaiTi
     mpl.rcParams['axes.unicode_minus'] = False
 
     # # 5.2 损失函数：Logistic损失(-1,1)/SVM Hinge损失/ 0/1损失
     # x = np.array(np.linspace(start=-2, stop=3, num=1001, dtype=np.float))
     # y_logit = np.log(1 + np.exp(-x)) / math.log(2)
+    # print y_logit
     # y_boost = np.exp(-x)
+    # print y_boost
     # y_01 = x < 0
+    # print y_01
     # y_hinge = 1.0 - x
     # y_hinge[y_hinge < 0] = 0
+    # print y_hinge
     # plt.plot(x, y_logit, 'r-', label='Logistic Loss', linewidth=2)
     # plt.plot(x, y_01, 'g-', label='0/1 Loss', linewidth=2)
     # plt.plot(x, y_hinge, 'b-', label='Hinge Loss', linewidth=2)
     # plt.plot(x, y_boost, 'm--', label='Adaboost Loss', linewidth=2)
     # plt.grid()
     # plt.legend(loc='upper right')
-    # # plt.savefig('1.png')
+    # plt.savefig('1.png')
     # plt.show()
 
     # # 5.3 x^x
-    # x = np.linspace(-1.3, 1.3, 101)
+    # x = np.linspace(0, 1.3, 101)
     # y = f(x)
     # plt.plot(x, y, 'g-', label='x^x', linewidth=2)
     # plt.grid()
@@ -374,7 +381,7 @@ if __name__ == "__main__":
 
     # 6.21 其他分布的中心极限定理
     # lamda = 10
-    # p = stats.poisson(lamda)
+    # p = stats.poisson(lamda) #possion 分布
     # y = p.rvs(size=1000)
     # mx = 30
     # r = (0, mx)
@@ -424,7 +431,7 @@ if __name__ == "__main__":
     # # 6.5 插值
     # rv = poisson(5)
     # x1 = a[1]
-    # y1 = rv.pmf(x1)
+    # y1 = rv.pmf(x1) #概率质量函数的缩写PMF
     # itp = BarycentricInterpolator(x1, y1)  # 重心插值
     # x2 = np.linspace(x.min(), x.max(), 50)
     # y2 = itp(x2)
@@ -440,40 +447,40 @@ if __name__ == "__main__":
     # x, y = np.ogrid[-3:3:100j, -3:3:100j]
     # # u = np.linspace(-3, 3, 101)
     # # x, y = np.meshgrid(u, u)
-    # z = x*y*np.exp(-(x**2 + y**2)/2) / math.sqrt(2*math.pi)
+    # z = x*y*np.exp(-(x**2 + y**2)/2) / math.sqrt(2*math.pi) #
     # # z = x*y*np.exp(-(x**2 + y**2)/2) / math.sqrt(2*math.pi)
     # fig = plt.figure()
     # ax = fig.add_subplot(111, projection='3d')
     # # ax.plot_surface(x, y, z, rstride=5, cstride=5, cmap=cm.coolwarm, linewidth=0.1)  #
     # ax.plot_surface(x, y, z, rstride=5, cstride=5, cmap=cm.Accent, linewidth=0.5)
     # plt.show()
-    # # cmaps = [('Perceptually Uniform Sequential',
-    # #           ['viridis', 'inferno', 'plasma', 'magma']),
-    # #          ('Sequential', ['Blues', 'BuGn', 'BuPu',
-    # #                          'GnBu', 'Greens', 'Greys', 'Oranges', 'OrRd',
-    # #                          'PuBu', 'PuBuGn', 'PuRd', 'Purples', 'RdPu',
-    # #                          'Reds', 'YlGn', 'YlGnBu', 'YlOrBr', 'YlOrRd']),
-    # #          ('Sequential (2)', ['afmhot', 'autumn', 'bone', 'cool',
-    # #                              'copper', 'gist_heat', 'gray', 'hot',
-    # #                              'pink', 'spring', 'summer', 'winter']),
-    # #          ('Diverging', ['BrBG', 'bwr', 'coolwarm', 'PiYG', 'PRGn', 'PuOr',
-    # #                         'RdBu', 'RdGy', 'RdYlBu', 'RdYlGn', 'Spectral',
-    # #                         'seismic']),
-    # #          ('Qualitative', ['Accent', 'Dark2', 'Paired', 'Pastel1',
-    # #                           'Pastel2', 'Set1', 'Set2', 'Set3']),
-    # #          ('Miscellaneous', ['gist_earth', 'terrain', 'ocean', 'gist_stern',
-    # #                             'brg', 'CMRmap', 'cubehelix',
-    # #                             'gnuplot', 'gnuplot2', 'gist_ncar',
-    # #                             'nipy_spectral', 'jet', 'rainbow',
-    # #                             'gist_rainbow', 'hsv', 'flag', 'prism'])]
+    # cmaps = [('Perceptually Uniform Sequential',
+    #           ['viridis', 'inferno', 'plasma', 'magma']),
+    #          ('Sequential', ['Blues', 'BuGn', 'BuPu',
+    #                          'GnBu', 'Greens', 'Greys', 'Oranges', 'OrRd',
+    #                          'PuBu', 'PuBuGn', 'PuRd', 'Purples', 'RdPu',
+    #                          'Reds', 'YlGn', 'YlGnBu', 'YlOrBr', 'YlOrRd']),
+    #          ('Sequential (2)', ['afmhot', 'autumn', 'bone', 'cool',
+    #                              'copper', 'gist_heat', 'gray', 'hot',
+    #                              'pink', 'spring', 'summer', 'winter']),
+    #          ('Diverging', ['BrBG', 'bwr', 'coolwarm', 'PiYG', 'PRGn', 'PuOr',
+    #                         'RdBu', 'RdGy', 'RdYlBu', 'RdYlGn', 'Spectral',
+    #                         'seismic']),
+    #          ('Qualitative', ['Accent', 'Dark2', 'Paired', 'Pastel1',
+    #                           'Pastel2', 'Set1', 'Set2', 'Set3']),
+    #          ('Miscellaneous', ['gist_earth', 'terrain', 'ocean', 'gist_stern',
+    #                             'brg', 'CMRmap', 'cubehelix',
+    #                             'gnuplot', 'gnuplot2', 'gist_ncar',
+    #                             'nipy_spectral', 'jet', 'rainbow',
+    #                             'gist_rainbow', 'hsv', 'flag', 'prism'])]
 
     # 8.1 scipy
-    # 线性回归例1
+    # 线性回归例1 ##拟合，拟合与插值的区别：知乎问答（https://www.zhihu.com/question/24276013）
     # x = np.linspace(-2, 2, 50)
     # A, B, C = 2, 3, -1
     # y = (A * x ** 2 + B * x + C) + np.random.rand(len(x))*0.75
     #
-    # t = leastsq(residual, [0, 0, 0], args=(x, y))
+    # t = leastsq(residual, [0, 0, 0], args=(x, y)) #最小二乘法
     # theta = t[0]
     # print '真实值：', A, B, C
     # print '预测值：', theta
@@ -490,7 +497,7 @@ if __name__ == "__main__":
     # w = 1.5
     # y = A * np.sin(w*x) + np.random.rand(len(x)) - 0.5
     #
-    # t = leastsq(residual2, [3, 1], args=(x, y))
+    # t = leastsq(residual2, [5, 0], args=(x, y))
     # theta = t[0]
     # print '真实值：', A, w
     # print '预测值：', theta
