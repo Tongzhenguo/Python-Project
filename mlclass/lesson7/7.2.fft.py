@@ -1,6 +1,13 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
 
+"""
+    傅立叶变换:将一个表示波的函数从时域（时间与振幅的关系）转化为频域（频率与振幅的关系）的数学操作被称为傅立叶变换
+    关于傅立叶变换：https://www.zhihu.com/question/19714540
+    信号频域和时域的关系:https://www.zhihu.com/question/21040374
+    库方法：np.fft.fft 和 np.fft.ifft
+"""
+
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -12,7 +19,7 @@ def triangle_wave(size, T):
     # y = np.where(t < 0, -t, 0)
     # y = np.where(t >= 0, t, y)
     y = np.abs(t)
-    y = np.tile(y, T) - 0.5
+    y = np.tile(y, T) - 0.5 ##tile 是将y重复T次
     x = np.linspace(0, 2*np.pi*T, size*T, endpoint=False)
     return x, y
 
@@ -60,7 +67,7 @@ if __name__ == "__main__":
     print '\n实部：', np.real(iy)
     print '\n恢复信号与原始信号是否相同：', np.allclose(np.real(iy), y)
 
-    plt.subplot(211)
+    plt.subplot(211)  #两行，一列，第一个子图
     plt.plot(x, y, 'go-', lw=2)
     plt.title(u'时域信号', fontsize=15)
     plt.grid(True)
