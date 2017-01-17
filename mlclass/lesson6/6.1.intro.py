@@ -127,10 +127,10 @@ if __name__ == "__main__":
     # # #
     # # 和linspace类似，logspace可以创建等比数列
     # # 下面函数创建起始值为10^1，终止值为10^2，有20个数的等比数列
-    # d = np.logspace(1, 2, 10, endpoint=True)
+    # d = np.logspace(1, 2, 20, endpoint=True)
     # print d
     # # #
-    # # # 下面创建起始值为2^0，终止值为2^10(包括)，有10个数的等比数列
+    # # # 下面创建起始值为2^0，终止值为2^10(包括)，有11个数的等比数列
     # f = np.logspace(0, 10, 11, endpoint=True, base=2)
     # print f
     # # #
@@ -224,7 +224,7 @@ if __name__ == "__main__":
 
     # # 4.1 numpy与Python数学库的时间比较
     # for j in np.logspace(0, 7, 10):
-    #     j = int(j)
+    #     j = int(j)0
     #     x = np.linspace(0, 10, j)
     #     start = time.clock()
     #     y = np.sin(x)
