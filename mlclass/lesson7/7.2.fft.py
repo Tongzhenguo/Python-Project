@@ -2,9 +2,13 @@
 # -*- coding:utf-8 -*-
 
 """
+
+    时域分析：以时间作为参照来观察动态世界的方法我们称其为时域分析
+    频域：频率与振幅的关系
     傅立叶变换:将一个表示波的函数从时域（时间与振幅的关系）转化为频域（频率与振幅的关系）的数学操作被称为傅立叶变换
     关于傅立叶变换：https://www.zhihu.com/question/19714540
     信号频域和时域的关系:https://www.zhihu.com/question/21040374
+    详细介绍：http://blog.jobbole.com/70549/
     库方法：np.fft.fft 和 np.fft.ifft
 """
 
