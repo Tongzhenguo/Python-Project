@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 
+"""
+    集成方法：bagging
+    随着抽样次数的增加，多个相互独立的弱分类器集成在一起也可以得到很好的分类效果
+"""
 import operator
-
-
 def c(n, k):
     return reduce(operator.mul, range(n-k+1, n+1)) / reduce(operator.mul, range(1, k+1))
 
