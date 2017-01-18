@@ -1,6 +1,10 @@
 #!/usr/bin/python
 #  -*- coding:utf-8 -*-
 
+"""
+    图像卷积：
+"""
+
 import numpy as np
 import os
 from PIL import Image
