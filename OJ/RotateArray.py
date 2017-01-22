@@ -8,7 +8,7 @@ For example, with n = 7 and k = 3, the array [1,2,3,4,5,6,7] is rotated to [5,6,
 Note:
 Try to come up as many solutions as you can, there are at least 3 different ways to solve this problem.
 简单翻译就是数组nums循环右移k位，返回原地变换(不允许进行移动) 的结果
-https://zh.wikipedia.org/zh-cn/原地算法
+https://zh.wikipedia.org/zh-cn/原地算法 list.reverse()
 """
 class Solution(object):
     def inverse(self,nums,start,stop):
