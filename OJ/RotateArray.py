@@ -11,25 +11,34 @@ Try to come up as many solutions as you can, there are at least 3 different ways
 https://zh.wikipedia.org/zh-cn/原地算法 list.reverse()
 """
 class Solution(object):
-    def inverse(self,nums,start,stop):
-        left,right = start,stop
-        while(left < right):
-            tmp = nums[left]
-            nums[left] = nums[right]
-            nums[right] = tmp
-            left += 1
-            right -= 1
-        return nums
-    def rotate(self, nums, k):
-        """
-        分三次翻转可以得到最终结果，
-        """
+    # def inverse(self,nums,start,stop):
+    #     left,right = start,stop
+    #     while(left < right):
+    #         tmp = nums[left]
+    #         nums[left] = nums[right]
+    #         nums[right] = tmp
+    #         left += 1
+    #         right -= 1
+    #     return nums
+    # def rotate(self, nums, k):
+    #     """
+    #     分三次翻转可以得到最终结果，
+    #     """
+    #     n = len(nums)
+    #     k %= n
+    #     if(k != 0):  #k == 0 means not change
+    #         self.inverse(nums,0,n-k-1)
+    #         self.inverse(nums,n-k,n-1)
+    #         self.inverse(nums,0,n-1)
+    def rotate(self,nums,k):
         n = len(nums)
         k %= n
         if(k != 0):  #k == 0 means not change
-            self.inverse(nums,0,n-k-1)
-            self.inverse(nums,n-k,n-1)
-            self.inverse(nums,0,n-1)
+            for i in range(n-1,0,-1):
+                tmp = nums[(i+k)%n]
+                nums[(i+k)%n] = nums[i]
+                nums[i] = tmp
+        return nums
 
 print Solution().rotate([1,2,3,4,5],2)
 print Solution().rotate([1,2,3,4,5],7)
