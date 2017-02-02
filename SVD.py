@@ -32,7 +32,7 @@ if __name__ == '__main__':
     img = Image.open('1.png', 'r')
     a = np.array(img)
 
-    for p in np.arange(0.1, 1, 0.1):
+    for p in np.arange(0.01, 1, 0.01):
         u, sigma, v = np.linalg.svd(a[:, :, 0])
         R = rebuild_img(u, sigma, v, p)
 
