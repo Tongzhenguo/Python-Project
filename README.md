@@ -13,6 +13,8 @@
   
   datastructure:数据结构定义
   
+  learntoNLP:NLP/NLU相关学习
+  
   learntomatplotlib:[matplotlib](http://matplotlib.org/)学习
   
   learntopandas[pandas](http://pandas.pydata.org/pandas-docs/stable/)学习
