@@ -1,5 +1,10 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
+"""
+    使用逻辑回归对鸢尾花数据进行分类
+    1.数据预处理：labelEncoder和标准化
+    2.sklearn的pipeline
+"""
 
 import numpy as np
 from sklearn.linear_model import LogisticRegression
@@ -14,71 +19,23 @@ from sklearn.pipeline import Pipeline
 if __name__ == "__main__":
     path = '10.iris.data'  # 数据文件路径
 
-    # # # 手写读取数据
-    # f = file(path)
-    # x = []
-    # y = []
-    # for d in f:
-    #     d = d.strip()
-    #     if d:
-    #         d = d.split(',')
-    #         y.append(d[-1])
-    #         x.append(map(float, d[:-1]))
-    # print '原始数据X：\n', x
-    # print '原始数据Y：\n', y
-    # x = np.array(x)
-    # print 'Numpy格式X：\n', x
-    # y = np.array(y)
-    # print 'Numpy格式Y - 1:\n', y
-    # y[y == 'Iris-setosa'] = 0
-    # y[y == 'Iris-versicolor'] = 1
-    # y[y == 'Iris-virginica'] = 2
-    # print 'Numpy格式Y - 2:\n', y
-    # y = y.astype(dtype=np.int)
-    # print 'Numpy格式Y - 3:\n', y
-    # print '\n\n============================================\n\n'
-
     # 使用sklearn的数据预处理
     df = pd.read_csv(path, header=None)
     x = df.values[:, :-1]
     y = df.values[:, -1]
-    # print x.shape
-    # print y.shape
-    # print 'x = \n', x
-    # print 'y = \n', y
-    le = preprocessing.LabelEncoder()
-    le.fit(['Iris-setosa', 'Iris-versicolor', 'Iris-virginica'])
-    # print le.classes_
-    y = le.transform(y)
-    # print 'Last Version, y = \n', y
 
-    # def iris_type(s):
-    #     it = {'Iris-setosa': 0,
-    #           'Iris-versicolor': 1,
-    #           'Iris-virginica': 2}
-    #     return it[s]
-    #
-    # # # 路径，浮点型数据，逗号分隔，第4列使用函数iris_type单独处理
-    # data = np.loadtxt(path, dtype=float, delimiter=',',
-    #                   converters={4: iris_type})
-    #
-    # data = pd.read_csv('10.iris.data', header=None)
-    # iris_types = data[4].unique()
-    # for i, type in enumerate(iris_types):
-    #     data.set_value(data[4] == type, 4, i)
-    # x, y = np.split(data.values, (4,), axis=1)
-    # x = x.astype(np.float)
-    # y = y.astype(np.int)
-    # # print 'x = \n', x
-    # print 'y = \n', y
+    le = preprocessing.LabelEncoder()
+    y = le.fit_transform(y)
+    print 'Last Version, y = \n', y
+
     # 仅使用前两列特征
     x = x[:, :2]
     lr = Pipeline([('sc', StandardScaler()),
                    ('clf', LogisticRegression()) ])
-    lr.fit(x, y.ravel())
+    lr.fit(x, y.ravel()) #因为函数要求y是行向量，而不是列向量，避免warning
     y_hat = lr.predict(x)
     y_hat_prob = lr.predict_proba(x)
-    np.set_printoptions(suppress=True) #print float num by using scientific notation
+    np.set_printoptions(suppress=True) #是否使用科学计数表示浮点数
     print 'y_hat = \n', y_hat
     print 'y_hat_prob = \n', y_hat_prob
     print u'准确度：%.2f%%' % (100*np.mean(y_hat == y.ravel()))
