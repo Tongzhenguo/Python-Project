@@ -10,14 +10,13 @@ the contiguous subarray [4,-1,2,1] has the largest sum = 6.
 
 class Solution(object):
     def maxSubArray(self, nums):
-        n = len(nums)
-        dp = [0 for i in nums]##dp[i] means the maximum subarray ending with A[i];
-        dp[0] = nums[0]
-        maxSum = dp[0]
-
+        """
+        动态规划解法(DP)，参考https://discuss.leetcode.com/topic/6413/dp-solution-some-thoughts/7
+        """
+        n,dpSolutionSoFar = len(nums),nums[0] ##当前dp问题最优解，初始化为第一个值
+        maxSum = dpSolutionSoFar
         for i in range(1,n,1):
-            dp[i] = nums[i] + (dp[i - 1] if dp[i - 1] > 0 else 0) #状态转移方程（递推式）
-            print dp[i]
-            maxSum = max(maxSum, dp[i])
+            dpSolutionEndHere = nums[i] + (dpSolutionSoFar if dpSolutionSoFar > 0 else 0) #状态转移方程（递推式），如果之前最优解为0就抛弃，否则保存
+            maxSum,dpSolutionSoFar = max(maxSum, dpSolutionEndHere),dpSolutionEndHere ##更新
         return maxSum
 print Solution().maxSubArray([-2,1,-3,4,-1,2,1,-5,4])
