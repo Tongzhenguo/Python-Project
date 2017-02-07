@@ -13,49 +13,17 @@ from pprint import pprint
 
 if __name__ == "__main__":
     path = '10.Advertising.csv'
-    # 手写读取数据 - 请自行分析，在10.2.Iris代码中给出类似的例子
-    # f = file(path)
-    # x = []
-    # y = []
-    # for i, d in enumerate(f):
-    #     if i == 0:
-    #         continue
-    #     d = d.strip()
-    #     if not d:
-    #         continue
-    #     d = map(float, d.split(','))
-    #     x.append(d[1:-1])
-    #     y.append(d[-1])
-    # pprint(x)
-    # pprint(y)
-    # x = np.array(x)
-    # y = np.array(y)
-
-    # # Python自带库
-    # f = file(path, 'rb')
-    # print f
-    # d = csv.reader(f)
-    # for line in d:
-    #     print line
-    # f.close()
-    #
-    # numpy读入
-    # p = np.loadtxt(path, delimiter=',', skiprows=1)
-    # print p
-    # print '\n\n===============\n\n'
 
     # pandas读入
     data = pd.read_csv(path)    # TV、Radio、Newspaper、Sales
     # x = data[['TV', 'Radio', 'Newspaper']]
     x = data[['TV', 'Radio']]
     y = data['Sales']
-    # print x
-    # print y
 
     mpl.rcParams['font.sans-serif'] = [u'simHei']
     mpl.rcParams['axes.unicode_minus'] = False
     #
-    # 绘制1
+    # 绘制1(不直观)
     # plt.plot(data['TV'], y, 'ro', label='TV')
     # plt.plot(data['Radio'], y, 'g^', label='Radio')
     # plt.plot(data['Newspaper'], y, 'mv', label='Newspaer')
@@ -63,7 +31,7 @@ if __name__ == "__main__":
     # plt.grid()
     # plt.show()
     #
-    # # 绘制2
+    # # 绘制2（发现y和Newspaper线性不相关）
     # plt.figure(figsize=(9,12))
     # plt.subplot(311)
     # plt.plot(data['TV'], y, 'ro')
@@ -80,6 +48,7 @@ if __name__ == "__main__":
     # plt.tight_layout()
     # plt.show()
 
+    #random_state是随机化种子，保证训练数据相同，模型可重现；默认参数是随机的，不保证重现
     x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.8, random_state=2017)
     # print x_train, y_train
     linreg = LinearRegression()
@@ -90,10 +59,10 @@ if __name__ == "__main__":
     #综上，sales = 0.04 * TV + 0.19 * RADIO + 3.16
 
     y_hat = linreg.predict(np.array(x_test))
-    # mse = np.average((y_hat - np.array(y_test)) ** 2)  # Mean Squared Error
-    # rmse = np.sqrt(mse)  # Root Mean Squared Error
-    # print mse, rmse
-    #
+    mse = np.average((y_hat - np.array(y_test)) ** 2)  # Mean Squared Error
+    rmse = np.sqrt(mse)  # Root Mean Squared Error
+    print mse, rmse
+
     t = np.arange(len(x_test))
     plt.plot(t, y_test, 'r-', linewidth=2, label=u'真实数据')
     plt.plot(t, y_hat, 'g-', linewidth=2, label=u'预测数据')

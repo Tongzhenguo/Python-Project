@@ -1,6 +1,13 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 
+"""
+广告的线性回归的例子，做一点优化：
+    1.数据预处理
+    2.特征选择
+    3.模型选择（交叉验证（GridSearchCV）找到最优参数，改用Lasso,Ridge）
+
+"""
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -10,18 +17,19 @@ from sklearn.linear_model import Lasso, Ridge
 from sklearn.model_selection import GridSearchCV
 
 
+
 if __name__ == "__main__":
     # pandas读入
     data = pd.read_csv('10.Advertising.csv')    # TV、Radio、Newspaper、Sales
-    x = data[['TV', 'Radio', 'Newspaper']]
-    # x = data[['TV', 'Radio']]
+    # x = data[['TV', 'Radio', 'Newspaper']]
+    x = data[['TV', 'Radio']]
     y = data['Sales']
     # print x
     # print y
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=2017)
     # model = Lasso()
-    model = Ridge()
+    model = Ridge() #貌似ridge MSE小一点
     alpha_can = np.logspace(-3, 2, 10)
     lasso_model = GridSearchCV(model, param_grid={'alpha': alpha_can}, cv=5)
     lasso_model.fit(x_train, y_train)

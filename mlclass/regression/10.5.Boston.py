@@ -15,21 +15,17 @@ from sklearn.metrics import mean_squared_error
 import warnings
 import exceptions
 
-
+"""
+    数据预处理：标准化
+    特征工程：特征转换或者特征生成
+    模型选择：交叉验证得到最优参数ElasticNetCV
+    复习R2
+"""
 def not_empty(s):
     return s != ''
 
 
 if __name__ == "__main__":
-    # warnings.filterwarnings(action='ignore')
-    # np.set_printoptions(suppress=True)
-    # file_data = pd.read_csv('10.housing.data', header=None)
-    # # a = np.array([float(s) for s in str if s != ''])
-    # data = np.empty((len(file_data), 14))
-    # for i, d in enumerate(file_data.values):
-    #     d = map(float, filter(not_empty, d[0].split(' ')))
-    #     data[i] = d
-    # x, y = np.split(data, (13, ), axis=1)
     data = sklearn.datasets.load_boston()
     x = np.array(data.data)
     y = np.array(data.target)
