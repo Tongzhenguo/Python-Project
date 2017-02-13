@@ -12,7 +12,7 @@ Return 6.
 class Solution(object):
     def maximalRectangle(self, matrix):
         """
-        看的答案
+        
         """
         if not matrix or not matrix[0]:
             return 0

@@ -3,13 +3,13 @@ __author__ = 'arachis'
 
 """
 Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
-给一个三角形，每个点都对应一个整型值，求从最顶行到最低行的最小和，约束每一步只能向下或者右下或者右下方移动
+给一个三角形，每个点都对应一个整型值，求从最顶行到最低行的最小和，约束每一步只能向下或者右下方移动
 For example, given the following triangle
 [
-[2],
-[3,4],
-[6,5,7],
-[4,1,8,3]
+     [2],
+    [3,4],
+   [6,5,7],
+  [4,1,8,3]
 ]
 The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
 
@@ -19,12 +19,15 @@ Bonus point if you are able to do this using only O(n) extra space, where n is t
 """
 
 class Solution(object):
-    #参考：https://leetcode.com/problems/triangle/?tab=Solutions
-    # bottom-up, O(n) space
+    """参考：https://siddontang.gitbooks.io/leetcode-solution/content/dynamic_programming/triangle.html
+    #相比自顶向下，只用考虑两个方向，而后者要考虑最多三种
+    初值：dp[m-1][] = triangle[m-1]
+    递推公式： dp[m][n] = min(dp[m + 1][n], dp[m + 1][n + 1]) + triangle[m][n]
+    bottom-up, O(n) space"""
     def minimumTotal(self, triangle):
         if not triangle:
             return
-        res = triangle[-1]
+        res = triangle[-1] #最后一行
         for i in xrange(len(triangle)-2, -1, -1):
             for j in xrange(len(triangle[i])):
                 res[j] = min(res[j], res[j+1]) + triangle[i][j]
