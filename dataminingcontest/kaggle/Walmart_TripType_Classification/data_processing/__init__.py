@@ -31,7 +31,8 @@ triptype_map[45] = triptype_map[999]
 # print(triptype_map)
 trainfile.TripType.replace(triptype_map, inplace=True)
 
-def preproc(df):
+def preproc(file):
+    df = pd.read_csv(file)
     # replace days of week
     en = preprocessing.LabelEncoder()
     en.fit(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
@@ -43,11 +44,8 @@ def preproc(df):
     # there are nan's that need to get converted
     df["DepartmentDescription"].fillna("nan")
 
-    if 'TripType' in df:
-        enc = preprocessing.OneHotEncoder()
-        df["TripTypeOneHot"] = enc.fit_transform(df.TripType.reshape(-1, 1))
+    # if 'TripType' in df:
+    #     enc = preprocessing.OneHotEncoder()
+    #     df["TripTypeOneHot"] = enc.fit_transform(df.TripType.reshape(-1, 1))
 
-preproc(trainfile)
-trainfile.to_csv("train.csv")
-preproc(test)
-test.to_csv("test.csv")
+    return df

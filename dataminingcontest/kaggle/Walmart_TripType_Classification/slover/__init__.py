@@ -1,11 +1,17 @@
 import xgboost as xgb
-import gzip
 import numpy as np
 import dataminingcontest.kaggle.Walmart_TripType_Classification.utils as utils
+from dataminingcontest.kaggle.Walmart_TripType_Classification.data_processing import preproc
 
-train,valid = utils.train_valid_split("../data_processing/train.csv")
-train_ddmat, train_visitnum, train_tt = utils.make_ddcomb(train)
-valid_ddmat, valid_visitnum, valid_tt = utils.make_ddcomb(valid)
+#data processing
+trainfile = preproc("../walmart-input/train.csv")
+test = preproc('../walmart-input/test.csv')
+
+#split trainset and validset
+train,valid = utils.train_valid_split(trainfile)
+
+train_ddmat, train_visitnum, train_tt = utils.make_ddcomb(train,train)
+valid_ddmat, valid_visitnum, valid_tt = utils.make_ddcomb(valid,train)
 
 n = len(train_tt)
 key = 31
