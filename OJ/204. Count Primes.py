@@ -21,7 +21,7 @@ class Solution(object):
                     notPrime[ i*j ] = True
                     j += 1
         return cn
-print Solution().countPrimes(0)
-print Solution().countPrimes(2)
-print Solution().countPrimes(5)
-print Solution().countPrimes(10)
+# print Solution().countPrimes(0)
+# print Solution().countPrimes(2)
+# print Solution().countPrimes(5)
+# print Solution().countPrimes(10)
