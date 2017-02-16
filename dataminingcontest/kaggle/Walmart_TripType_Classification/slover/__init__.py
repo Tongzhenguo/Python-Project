@@ -1,5 +1,6 @@
 import xgboost as xgb
 import numpy as np
+import pandas as pd
 import dataminingcontest.kaggle.Walmart_TripType_Classification.utils as utils
 from dataminingcontest.kaggle.Walmart_TripType_Classification.data_processing import preproc
 
@@ -27,13 +28,23 @@ for i in range(len(valid_tt)):
 dtrain = xgb.DMatrix(train_ddmat[0:n], label=ttt_key)
 dtest = xgb.DMatrix(valid_ddmat, label=vtt_key)
 
-xgb_params = {'max_depth': 12,
-              'objective': 'reg:linear',
-              'eval_metric': 'logloss',
-              #          'num_class': 1,
+xgb_params = {'max_depth': 8,
+              'objective': 'multi:softprob',
+              'eval_metric': 'mlogloss',
+              'num_class': 39,
               'subsample': 0.4,
               'colsample_bytree': 0.8,
               'eta': 0.01}
 
 watchlist = [(dtrain, 'train'), (dtest, 'eval')]
-bsta = xgb.train(xgb_params, dtrain, 5000, evals=watchlist, verbose_eval=True, early_stopping_rounds=500)
+bsta = xgb.train(xgb_params, dtrain, 500, evals=watchlist, verbose_eval=True, early_stopping_rounds=500)
+yhat = bsta.predict(dtest)
+# print yhat[:5,]
+
+
+# sub = pd.read_csv('../walmart-input/sample_submission.csv')
+# print sub.values.shape
+# print yhat.shape
+# for i in range( len(sub["VisitNumber"].values) ):
+#     sub[:,i+1] = yhat[:,i]
+# print sub.head()

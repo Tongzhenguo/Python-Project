@@ -1,9 +1,6 @@
 import numpy as np
 from sklearn import preprocessing
 
-# sub_orig = pd.read_csv('walmart-input/sample_submission.csv')
-# sub = sub_orig.copy()
-
 def train_valid_split(trainfile):
     # Now split the train data into train+valid.
     #  2.5% with seed 0 appears to be pretty good, at least until this gets competitive
@@ -23,15 +20,6 @@ def train_valid_split(trainfile):
     train = trainfile.ix[training_set]
     return  (train,valid)
 
-def makeddint(df, train):
-    ddcatout = np.zeros(len(df["DepartmentDescription"]))
-    # make categorical #'s.
-    ddcat = train["DepartmentDescription"].unique()
-    for i in range(len(ddcat)):
-        ddcatout[np.where(df["DepartmentDescription"] == ddcat[i])] = i
-    # XXX: this is raising a SettingWithCopyWarning on valid and possibly train
-    df['DepartmentDescriptionInt'] = ddcatout.astype(int)
-    return df
 
 def make_ddcomb(df,train, num_visits=100000000):
     # make categorical #'s.
@@ -41,11 +29,10 @@ def make_ddcomb(df,train, num_visits=100000000):
 
     for i in range(len(ddcat)):
         ddmap[ ddcat[i] ] = i
-    train = makeddint(train,train)
 
-    # Construct set of usable DepartmentDescriptionInt keys (with >1000 per dept)
+    # Construct set of usable DepartmentDescription keys (with >1000 per dept)
     train_psc = train[train.ScanCount >= 1]
-    vc = train_psc.DepartmentDescriptionInt.value_counts()
+    vc = train_psc.DepartmentDescription.value_counts()
 
     ddi_len = np.zeros(len(ddcat))
     ddi_keys = {}
@@ -59,7 +46,7 @@ def make_ddcomb(df,train, num_visits=100000000):
     train_psc = train[train.ScanCount >= 1]
 
     flmap = {}
-    ddmax = np.max(train.DepartmentDescriptionInt) + 1
+    ddmax = np.max(train.DepartmentDescription) + 1
     fnum = 6
 
     f_ddstart = 6
@@ -71,7 +58,7 @@ def make_ddcomb(df,train, num_visits=100000000):
     # # rest of fnum: fineline mapping
     for cat in range(0, ddmax):
         # for cat in [20]:
-        catmask = train_psc.DepartmentDescriptionInt == cat
+        catmask = train_psc.DepartmentDescription == cat
         subset = train_psc[catmask]
         # print(cat, len(subset))
 
@@ -90,13 +77,13 @@ def make_ddcomb(df,train, num_visits=100000000):
     num_ents = len(df)
     visits = np.sort(df["VisitNumber"].unique())
     num_visits = min(num_visits, len(visits))
-    ddmax = np.max(train["DepartmentDescriptionInt"])
+    ddmax = np.max(train["DepartmentDescription"])
     mat = np.zeros((num_visits, (ddmax * 1) + fnum + 2))
     tt = np.zeros(num_visits)
     df_scancount = df.ScanCount.values
     df_visitnumber = df.VisitNumber.values
     df_triptype = df.TripType.values if ('TripType' in df) else np.zeros(len(df))
-    df_ddint = df.DepartmentDescriptionInt.values
+    df_ddint = df.DepartmentDescription.values
     df_fln = df.FinelineNumber.values
     visitmap = {}
     vnum = -1
