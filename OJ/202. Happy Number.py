@@ -15,6 +15,7 @@ Example: 19 is a happy number
 class Solution(object):
     def isHappy(self, n):
         """
+        N瞎给的，1000会超时
         """
         sumdigitS = 0
         N = 0
