@@ -21,6 +21,7 @@ class Solution(object):
     def numberOfBoomerangs(self, points):
         """
         记录两点距离的统计值
+
         """
         res = 0
         for p in points:
