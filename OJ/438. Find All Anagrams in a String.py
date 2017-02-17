@@ -50,5 +50,5 @@ class Solution(object):
                 res.append(i - m + 1)
         return res
 
-print Solution().findAnagrams("cbaebabacd"
-,"abc")
+# print Solution().findAnagrams("cbaebabacd"
+# ,"abc")
