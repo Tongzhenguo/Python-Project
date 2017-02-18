@@ -25,7 +25,7 @@ def load_data(file_name, is_train):
     # 性别
     data['Sex'] = data['Sex'].map({'female': 0, 'male': 1}).astype(int)
 
-    # 补齐船票价格缺失值
+    # 补齐船票价格缺失值,根据Pclass聚类均值预测
     if len(data.Fare[data.Fare.isnull()]) > 0:
         fare = np.zeros(3)
         for f in range(0, 3):
@@ -98,7 +98,6 @@ def load_data(file_name, is_train):
 def write_result(c, c_type):
     file_name = '14.Titanic.test.csv'
     x, passenger_id = load_data(file_name, False)
-
     if type == 3:
         x = xgb.DMatrix(x)
     y = c.predict(x)
@@ -136,11 +135,15 @@ if __name__ == "__main__":
              # 'subsample': 1, 'alpha': 0, 'lambda': 0, 'min_child_weight': 1}
     bst = xgb.train(param, data_train, num_boost_round=100, evals=watch_list)
     y_hat = bst.predict(data_test)
-    write_result(bst, 3)
+    # print y_hat[:5]
     y_hat[y_hat > 0.5] = 1
     y_hat[~(y_hat > 0.5)] = 0
     xgb_rate = show_accuracy(y_hat, y_test, 'XGBoost ')
-    #
+
     # print 'Logistic回归：%.3f%%' % lr_rate
     # print '随机森林：%.3f%%' % rfc_rate
-    print 'XGBoost：%.3f%%' % xgb_rate
+    # print 'XGBoost：%.3f%%' % xgb_rate
+
+    # write_result(bst, 3)
+
+
