@@ -74,8 +74,8 @@ print binarizer.transform(X_test)
 """
 #知道各个类别的数目，可通过n_values指定
 enc = preprocessing.OneHotEncoder()
-print enc.fit([[1, 2, 3], [0, 2, 0]])
-print enc.transform([[1, 0, 0]]).toarray()
+print enc.fit([[0,0],[0,1],[1, 0], [2,1]]) #all leaf
+print enc.transform([[1, 0], [2,1]]).toarray() #小男孩，小女孩
 
 
 """
