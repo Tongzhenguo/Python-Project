@@ -1,5 +1,7 @@
 __author__ = 'arachis'
 
+import numpy as np
+import matplotlib.pyplot as plt
 # Define the softmax function
 def softmax(z):
     return np.exp(z) / np.sum(np.exp(z))
