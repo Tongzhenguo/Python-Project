@@ -23,45 +23,35 @@ def train_valid_split(trainfile):
 
 def make_ddcomb(df,train, num_visits=100000000):
     # make categorical #'s.
-    ddcat = np.unique(train.DepartmentDescription)
+    ddcat = np.unique(train["DepartmentDescription"])
+
     # build map
     ddmap = {}
-
     for i in range(len(ddcat)):
         ddmap[ ddcat[i] ] = i
 
     # Construct set of usable DepartmentDescription keys (with >1000 per dept)
-    train_psc = train[train.ScanCount >= 1]
-    vc = train_psc.DepartmentDescription.value_counts()
+    train_psc = train[train.ScanCount >= 1].DepartmentDescription
+    vc = train_psc.value_counts()
 
     ddi_len = np.zeros(len(ddcat))
     ddi_keys = {}
-
     for i in vc.iteritems():
         ddi_len[i[0]] = i[1]
-
         if i[1] > 1000:
             ddi_keys[i[0]] = True
 
-    train_psc = train[train.ScanCount >= 1]
-
     flmap = {}
-    ddmax = np.max(train.DepartmentDescription) + 1
-    fnum = 6
+    ddmax = np.max(train["DepartmentDescription"]) + 1
 
-    f_ddstart = 6
-    f_ddend = 6 + ddmax
-    #
     # # 6-ddmax: coarse dept description
-    fnum += ddmax
-    #
+    fnum = 6 + ddmax
+
     # # rest of fnum: fineline mapping
     for cat in range(0, ddmax):
         # for cat in [20]:
-        catmask = train_psc.DepartmentDescription == cat
+        catmask = train[train.ScanCount >= 1,train.DepartmentDescription == cat]
         subset = train_psc[catmask]
-        # print(cat, len(subset))
-
         if len(subset) < 10:
             continue
 
@@ -78,6 +68,7 @@ def make_ddcomb(df,train, num_visits=100000000):
     visits = np.sort(df["VisitNumber"].unique())
     num_visits = min(num_visits, len(visits))
     ddmax = np.max(train["DepartmentDescription"])
+
     mat = np.zeros((num_visits, (ddmax * 1) + fnum + 2))
     tt = np.zeros(num_visits)
     df_scancount = df.ScanCount.values
@@ -94,17 +85,12 @@ def make_ddcomb(df,train, num_visits=100000000):
             visit = visitmap[df_visitnumber[i]]
         except:
             vnum += 1
-
             if (vnum + 1) == num_visits:
                 break
-
             visitmap[df_visitnumber[i]] = vnum
             visit = vnum
-
             tt[vnum] = df_triptype[i]
-
         icount[visit] += 1
-
         if True:  # df_scancount[i] > 0:
             dept = df_ddint[i]
             fln = df_fln[i]
@@ -118,6 +104,8 @@ def make_ddcomb(df,train, num_visits=100000000):
         if df_scancount[i] < 0:
             mat[visit][0] += 1
     vnum += 1
+    f_ddstart = 6
+    f_ddend = 6 + ddmax
     for i in range(0, vnum):
         if np.sum(mat[i][f_ddstart:f_ddend]):
             mat[i][f_ddstart:f_ddend] /= np.sum(mat[i][f_ddstart:f_ddend])

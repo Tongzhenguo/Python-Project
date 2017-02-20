@@ -22,7 +22,6 @@ def preproc(file):
     dden.fit( df["DepartmentDescription"] )
     df['DepartmentDescription'] = dden.transform( df['DepartmentDescription'] )
 
-
     sub_orig = pd.read_csv('../walmart-input/sample_submission.csv')
     sub = sub_orig.copy()
     if 'TripType' in df:

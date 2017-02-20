@@ -5,7 +5,7 @@ __author__ = 'arachis'
 http://blog.csdn.net/golden1314521/article/details/33268719
 """
 
-import BitVector
+# import BitVector
 class MyHash():#哈希类，根据不同参数初始化后作为不同的哈希函数
     def __init__(self, cap, seed):
         self.cap = cap
@@ -53,11 +53,11 @@ def Main(): #主函数
 
 
 if __name__ == '__main__':
-    Main()
-    # from pybloom import BloomFilter, ScalableBloomFilter
-    # bf = BloomFilter(capacity=10000, error_rate=0.001)
-    # bf.add('test')
-    # # ScalableBloomFilter是一个不定容量的布隆过滤器
-    # sbf = ScalableBloomFilter(mode=ScalableBloomFilter.SMALL_SET_GROWTH)
-    # sbf.add('dddd')
-    # print 'ddd' in sbf
+    # Main()
+    from pybloom import BloomFilter, ScalableBloomFilter
+    bf = BloomFilter(capacity=10000, error_rate=0.001)
+    bf.add('test')
+    # ScalableBloomFilter是一个不定容量的布隆过滤器
+    sbf = ScalableBloomFilter(mode=ScalableBloomFilter.SMALL_SET_GROWTH)
+    sbf.add('dddd')
+    print 'ddd' in sbf
