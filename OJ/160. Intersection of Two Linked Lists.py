@@ -28,26 +28,20 @@ Your code should preferably run in O(n) time and use only O(1) memory.
 class Solution(object):
     def getIntersectionNode(self, headA, headB):
         """
+
         """
-        resNode = None
-        p = headA
-        q = headB
-        while( p!=None  ):
-            if( p == q ):
-                resNode = p
-                break
-            while( q!=None  ):#固定一个，遍历第二个
-                q = q.next
-                if( p == q ):
-                    resNode = p
-                    break
-            p = p.next
-        return resNode
-l1 = ListNode(1)
-l2 = ListNode(2)
-l3 = ListNode(3)
-l4 = ListNode(4)
-l1.next = l4
-l2.next = l3
-l3.next = l4
-print Solution().getIntersectionNode(l1,l2)
+        if headA and headB:
+            A, B = headA, headB
+            while A!=B:
+                A = A.next if A else headB #到达了尾部，交换链表
+                B = B.next if B else headA
+            return A
+
+# l1 = ListNode(1)
+# l2 = ListNode(2)
+# l3 = ListNode(3)
+# l4 = ListNode(4)
+# l1.next = l4
+# l2.next = l3
+# l3.next = l4
+# print Solution().getIntersectionNode(l1,l2)
