@@ -53,7 +53,7 @@ if __name__ == '__main__':
     plt.figure(figsize=(9, 7), facecolor='w')
     ax = plt.subplot(111)
     cmesh = plt.pcolormesh(x1, x2, grid_hat, cmap=plt.cm.Spectral)
-    plt.colorbar(cmesh, shrink=0.9)
+    plt.colorbar(cmesh, shrink=0.9) #等值线
     CS = plt.contour(x1, x2, grid_hat, levels=np.logspace(0, 2, num=levels, base=10), colors='w', linewidths=1)
     plt.clabel(CS, fontsize=9, inline=1, fmt='%.1f')
     plt.scatter(x[:, 0], x[:, 1], s=30, c=y, cmap=cm, marker='o')
