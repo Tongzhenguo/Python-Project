@@ -23,7 +23,8 @@
   
   math_base:[数学相关程序](http://www.cnblogs.com/arachis/p/math_index.html)
   
-  
+  nn:[神经网络和深度学习]
+ 
   其他：
   SGD(随机梯度下降算法)的python实现
     
