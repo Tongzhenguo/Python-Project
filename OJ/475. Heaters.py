@@ -24,7 +24,8 @@ Explanation: The two heater was placed in the position 1 and 4. We need to use r
 
 class Solution(object):
     """
-    Add two imaginary heaters at the infinite, then any house can be always between two heaters. Find the shortest distance of the two and compare it to the answer.
+    Add two imaginary heaters at the infinite, then any house can be always between two heaters.
+    Find the shortest distance of the two and compare it to the answer.
     """
     def findRadius(self, houses, heaters):
         houses.sort()
