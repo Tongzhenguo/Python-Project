@@ -2,12 +2,11 @@
 # wget http://deeplearning.net/data/mnist/mnist.pkl.gz
 
 
-
-
 from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets(".", one_hot=True)
-
 import tensorflow as tf
+
+mnist = input_data.read_data_sets("mnist", one_hot=True)
+
 
 # Parameters
 learning_rate = 0.001
@@ -30,7 +29,7 @@ y = tf.placeholder("float", [None, n_classes])
 def multilayer_perceptron(x, weights, biases):
     # Hidden layer with RELU activation
     layer_1 = tf.add(tf.matmul(x, weights['h1']), biases['b1'])
-    layer_1 = tf.nn.relu(layer_1)
+    layer_1 = tf.nn.relu(layer_1) #rectified linear
     # Hidden layer with RELU activation
     layer_2 = tf.add(tf.matmul(layer_1, weights['h2']), biases['b2'])
     layer_2 = tf.nn.relu(layer_2)
@@ -44,7 +43,8 @@ def multilayer_perceptron(x, weights, biases):
     return out_layer
 
 # Store layers weight & biases
-weights = {
+weights = { #Outputs random values from a normal distribution.,shape=[m,n]
+    #默认mean=1.0,stddev=1.0
     'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1])),
     'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
     'out': tf.Variable(tf.random_normal([n_hidden_2, n_classes]))
@@ -60,6 +60,13 @@ pred = multilayer_perceptron(x, weights, biases)
 
 # Define loss and optimizer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
+"""
+    beta1=0.9, beta2=0.999, epsilon=1e-8
+    lr_t <- learning_rate * sqrt(1 - beta2^t) / (1 - beta1^t)
+    m_t <- beta1 * m_{t-1} + (1 - beta1) * g
+    v_t <- beta2 * v_{t-1} + (1 - beta2) * g * g
+    variable <- variable - lr_t * m_t / (sqrt(v_t) + epsilon)
+"""
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
 # Initializing the variables
