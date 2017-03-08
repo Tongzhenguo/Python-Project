@@ -22,7 +22,7 @@ class MyStack(object):
     def __init__(self):
         self._queue = collections.deque()
 
-    def push(self, x):#通过入到队尾，然后反转队列
+    def push(self, x):#通过入到队尾，然后依次出对，入队
         q = self._queue
         q.append(x)
         for _ in range(len(q) - 1):
