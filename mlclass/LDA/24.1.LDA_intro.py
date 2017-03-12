@@ -1,6 +1,7 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
 """
+LDA,LSI类API熟悉
 LSI适合短文本
 LDA适合长文本
 """
@@ -31,13 +32,13 @@ if __name__ == '__main__':
     # for c in corpus_tfidf:
     #     print c
 
-    # print '\nLSI Model:'
+    print '\nLSI Model:'
     lsi = models.LsiModel(corpus_tfidf, num_topics=2, id2word=dictionary)
     topic_result = [a for a in lsi[corpus_tfidf]]#再用原始语料预测一遍
-    # pprint(topic_result)
+    pprint(topic_result)
     # print 'LSI Topics:'
     # pprint(lsi.print_topics(num_topics=2, num_words=5))
-    similarity = similarities.MatrixSimilarity(lsi[corpus_tfidf])   # similarities.Similarity()
+    # similarity = similarities.MatrixSimilarity(lsi[corpus_tfidf])   # similarities.Similarity()
     # print 'Similarity:'
     # pprint(list(similarity))
 
@@ -46,9 +47,9 @@ if __name__ == '__main__':
         #(theta) and topic-word (lambda) distributions.两个狄利克雷先验分布的参数
     lda = models.LdaModel(corpus_tfidf, num_topics=num_topics, id2word=dictionary,
                           alpha='auto', eta='auto', minimum_probability=0.001)
-    # doc_topic = [doc_t for doc_t in lda[corpus_tfidf]]
-    # print 'Document-Topic:\n'
-    # pprint(doc_topic)
+    doc_topic = [doc_t for doc_t in lda[corpus_tfidf]]
+    print 'Document-Topic:\n'
+    pprint(doc_topic)
     # for doc_topic in lda.get_document_topics(corpus_tfidf):
     #     print doc_topic
     # for topic_id in range(num_topics):

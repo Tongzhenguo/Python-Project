@@ -1,12 +1,12 @@
-#get the mnist data 
+# coding=utf-8
+#get the mnist data
 # wget http://deeplearning.net/data/mnist/mnist.pkl.gz
-
 
 from tensorflow.examples.tutorials.mnist import input_data
 import tensorflow as tf
 
-mnist = input_data.read_data_sets("mnist", one_hot=True)
-
+#load data
+mnist = input_data.read_data_sets(".", one_hot=True)
 
 # Parameters
 learning_rate = 0.001
@@ -15,8 +15,6 @@ batch_size = 100
 display_step = 1
 
 # Network Parameters
-n_hidden_1 = 256 # 1st layer number of features
-n_hidden_2 = 512 # 2nd layer number of features
 n_input = 784 # MNIST data input (img shape: 28*28)
 n_classes = 10 # MNIST total classes (0-9 digits)
 
@@ -24,53 +22,55 @@ n_classes = 10 # MNIST total classes (0-9 digits)
 x = tf.placeholder("float", [None, n_input])
 y = tf.placeholder("float", [None, n_classes])
 
+# Store layers weight & biases
+weights = {
+    'conv1': tf.Variable(tf.random_normal([5, 5, 1, 32])),#5*5*1的卷积核，32个特征图
+    'conv2': tf.Variable(tf.random_normal([5, 5, 32, 64])),
+    'fc1' : tf.Variable(tf.random_normal([7*7*64,256])),
+    'out': tf.Variable(tf.random_normal([256,n_classes]))
+}
+biases = {
+    'conv_b1': tf.Variable(tf.random_normal([32])),
+    'conv_b2': tf.Variable(tf.random_normal([64])),
+    'fc1_b': tf.Variable(tf.random_normal([256])),
+    'out_b': tf.Variable(tf.random_normal([n_classes]))
+}
+
+#pre-define layer
+def conv2d(x, W): #use_cudnn_on_gpu: Defaults to `True`.
+  return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME',use_cudnn_on_gpu=False)
+
+def max_pool_2x2(x): #2*2是长宽，1是深度和其他
+  return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],strides=[1, 2, 2, 1], padding='SAME')
+
 
 # Create model
 def multilayer_perceptron(x, weights, biases):
-    # Hidden layer with RELU activation
-    layer_1 = tf.add(tf.matmul(x, weights['h1']), biases['b1'])
-    layer_1 = tf.nn.relu(layer_1) #rectified linear
-    # Hidden layer with RELU activation
-    layer_2 = tf.add(tf.matmul(layer_1, weights['h2']), biases['b2'])
-    layer_2 = tf.nn.relu(layer_2)
+    #now, we want to change this to a CNN network
 
-    """
-        With probability `keep_prob`, outputs the input element scaled up by `1 / keep_prob`, otherwise outputs `0`.
-        The scaling is so that the expected sum is unchanged.
-        只保留概率值大于keep_prob的参数（特征），新的参数值是1/keep_prob
-    """
-    drop_out = tf.nn.dropout(layer_2, keep_prob=0.75)
+    #first reshape the data to 4-D
+    x_image = tf.reshape(x, [-1,28,28,1])
+
+    #then apply cnn layers
+    h_conv1 = tf.nn.relu(conv2d(x_image, weights['conv1']) + biases['conv_b1'])
+    h_pool1 = max_pool_2x2(h_conv1)
+
+    h_conv2 = tf.nn.relu(conv2d(h_pool1, weights['conv2']) + biases['conv_b2'])
+    h_pool2 = max_pool_2x2(h_conv2)
+
+    h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
+    h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, weights['fc1']) + biases['fc1_b'])
 
 
     # Output layer with linear activation
-    out_layer = tf.matmul(layer_2, weights['out']) + biases['out']
+    out_layer = tf.matmul(h_fc1, weights['out']) + biases['out_b']
     return out_layer
-
-# Store layers weight & biases
-weights = { #Outputs random values from a normal distribution.,shape=[m,n]
-    #默认mean=1.0,stddev=1.0
-    'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1])),
-    'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
-    'out': tf.Variable(tf.random_normal([n_hidden_2, n_classes]))
-}
-biases = {
-    'b1': tf.Variable(tf.random_normal([n_hidden_1])),
-    'b2': tf.Variable(tf.random_normal([n_hidden_2])),
-    'out': tf.Variable(tf.random_normal([n_classes]))
-}
 
 # Construct model
 pred = multilayer_perceptron(x, weights, biases)
 
-# Define loss and optimizer
+# Define loss and optimizer,损失函数一般是非负，凸函数
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
-"""
-    beta1=0.9, beta2=0.999, epsilon=1e-8
-    lr_t <- learning_rate * sqrt(1 - beta2^t) / (1 - beta1^t)
-    m_t <- beta1 * m_{t-1} + (1 - beta1) * g
-    v_t <- beta2 * v_{t-1} + (1 - beta2) * g * g
-    variable <- variable - lr_t * m_t / (sqrt(v_t) + epsilon)
-"""
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
 # Initializing the variables
