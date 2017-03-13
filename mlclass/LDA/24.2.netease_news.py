@@ -1,14 +1,17 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
 
+"""
+一个典型的文档主题挖掘的过程
+    读取语料库
+    去掉停止词等
+    每个词汇(term/voc)的特征表示：TF-IDF/TF
+    提取主题和关键词
+"""
 import numpy as np
 from gensim import corpora, models, similarities
 from pprint import pprint
 import time
-
-# import logging
-# logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-
 
 def load_stopword():
     f_stop = open('24.stopword.txt')
@@ -25,7 +28,7 @@ if __name__ == '__main__':
     print '开始读入语料数据 -- '
     f = open('24.news.dat')    #24.LDA_test.txt
     texts = [[word for word in line.strip().lower().split() if word not in stop_words] for line in f]
-    # texts = [line.strip().split() for line in f]
+     # texts = [line.strip().split() for line in f]
     print '读入语料数据完成，用时%.3f秒' % (time.time() - t_start)
     f.close()
     M = len(texts)
@@ -35,7 +38,7 @@ if __name__ == '__main__':
     print '正在建立词典 --'
     dictionary = corpora.Dictionary(texts)
     V = len(dictionary)
-    print u'词的个数：', V
+    print '词的个数：', V
     print '正在计算文本向量 --'
     corpus = [dictionary.doc2bow(text) for text in texts]
     print '正在计算文档TF-IDF --'
@@ -79,6 +82,6 @@ if __name__ == '__main__':
         term_id = term_distribute[:, 0].astype(np.int)
         print '词：\t',
         for t in term_id:
-            print dictionary.id2token[t],
+            print dictionary.id2token[t], #词汇编码->词汇
         print
         # print '\n概率：\t', term_distribute[:, 1]
