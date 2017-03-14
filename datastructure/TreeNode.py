@@ -4,3 +4,7 @@ class TreeNode(object):
         self.val = x
         self.left = None
         self.right = None
+
+# root = TreeNode(1)
+# root.left =  TreeNode(2)
+# print root
