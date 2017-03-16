@@ -91,10 +91,11 @@ if __name__ == '__main__':
         # print content
         pattern = re.compile(u'<div class="list"><ul id="calendarList"><li></li></ul></div>'
                              u'.*?<div class="subNav">快速跳转：(.*?)<div class="area areabg1">', re.S)
-        link_name = re.findall(pattern=pattern, string=content)[0]
+        link_name = re.findall(pattern=pattern, string=content)[0] #top bar
+        # print link_name
         soup = BeautifulSoup(link_name, 'html.parser')
         for item in soup.find_all('a'):
-            crawl_topic(item['href'], item.get_text())
+            crawl_topic(item['href'], item.get_text()) #只爬取新闻主题
             break
     except urllib2.URLError, e:
         if hasattr(e,"code"):
