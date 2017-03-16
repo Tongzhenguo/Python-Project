@@ -35,12 +35,15 @@ if __name__ == '__main__':
     print '\nLSI Model:'
     lsi = models.LsiModel(corpus_tfidf, num_topics=2, id2word=dictionary)
     topic_result = [a for a in lsi[corpus_tfidf]]#再用原始语料预测一遍
+    # LSI在计算得到主题的同时，有时候会得到负数。我们虽然可以解释成“这个文档排斥该主题”或“这个主题排斥该词”，但总是觉得不合理。
     pprint(topic_result)
+
     # print 'LSI Topics:'
     # pprint(lsi.print_topics(num_topics=2, num_words=5))
     # similarity = similarities.MatrixSimilarity(lsi[corpus_tfidf])   # similarities.Similarity()
     # print 'Similarity:'
     # pprint(list(similarity))
+
 
     print '\nLDA Model:'
     num_topics = 2 #  `alpha` and `eta` are hyperparameters that affect sparsity of the document-topic
