@@ -13,7 +13,7 @@ class Solution(object):
     def addBinary(self, a, b):
         m,n = len(a),len(b)
         res = [0] * ( max( m,n )+1 )
-        if( m<n ):
+        if( m<n ): #保证位数相同
             a = (n - m)*"0" + a
         if( m>n ):
             b = (m - n)*"0" + b
@@ -22,7 +22,7 @@ class Solution(object):
             k = int(a[i])+int(b[i])+tmp
             res[i+1] = k % 2
             tmp = 1 if k >=2 else 0
-        if tmp == 1:
+        if tmp == 1: #处理最高位
             res[0] = 1
             return "".join(map(str,res))
         return "".join(map(str,res[1:]))
