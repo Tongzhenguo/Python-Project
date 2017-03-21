@@ -6,14 +6,16 @@ print(__doc__)
 import pandas as pd
 import xgboost as xgb
 from sklearn.cross_validation import train_test_split
+import sys
 
+path = "E:\Python-Project\dataset\\borrower_credit\\"
 random_seed = 1225
 
 #set data path
-train_x_csv = "F:/code\Python-Project/dataset/borrower_credit/train_x.csv"
-train_y_csv = "F:/code\Python-Project/dataset/borrower_credit/train_y.csv"
-test_x_csv = "F:/code\Python-Project/dataset/borrower_credit/test_x.csv"
-features_type_csv = "F:/code\Python-Project/dataset/borrower_credit/features_type.csv"
+train_x_csv = path+"train_x.csv"
+train_y_csv = path+"train_y.csv"
+test_x_csv = path+"test_x.csv"
+features_type_csv = path+"features_type.csv"
 
 #load data
 train_x = pd.read_csv(train_x_csv)
@@ -60,18 +62,21 @@ dtest = xgb.DMatrix(test_x)
 dval = xgb.DMatrix(val_X,label=val_y)
 dtrain = xgb.DMatrix(X, label=y)
 params={
+	'max_depth':8,
+    'subsample':0.7,
+    'colsample_bytree':0.3,
+    'min_child_weight':2.5,
+    'lambda':550,#L2惩罚系数
+    'eta': 0.007,#学习速率
+    'gamma':0.1,#0.2 is ok，最小loss
+
+    'scale_pos_weight': 1500.0/13458.0,
+
 	'booster':'gbtree',
 	'objective': 'binary:logistic',
 	'early_stopping_rounds':100,
-	'scale_pos_weight': 1500.0/13458.0,
-        'eval_metric': 'auc',
-	'gamma':0.1,#0.2 is ok
-	'max_depth':8,
-	'lambda':550,
-        'subsample':0.7,
-        'colsample_bytree':0.3,
-        'min_child_weight':2.5, 
-        'eta': 0.007,
+    'eval_metric': 'auc',
+
 	'seed':random_seed,
 	'nthread':7
     }
@@ -86,7 +91,7 @@ test_y = model.predict(dtest,ntree_limit=model.best_ntree_limit)
 test_result = pd.DataFrame(columns=["uid","score"])
 test_result.uid = test_uid
 test_result.score = test_y
-test_result.to_csv("F:/code/Python-Project/dataminingcontest/borrower_credit/M1/xgb717/xgb.csv",index=None,encoding='utf-8')  #remember to edit xgb.csv , add ""
+test_result.to_csv(path+"M1/xgb717/xgb.csv",index=None,encoding='utf-8')  #remember to edit xgb.csv , add ""
 
 
 #save feature score and feature information:  feature,score,min,max,n_null,n_gt1w
@@ -99,7 +104,7 @@ fs = []
 for (key,value) in feature_score:
     fs.append("{0},{1},{2},{3},{4},{5},{6}\n".format(key,value[0],value[1],value[2],value[3],value[4],value[5]))
 
-with open('F:/code/Python-Project/dataminingcontest/borrower_credit/M1/xgb717/feature_score.csv','w') as f:
+with open(path+'M1/xgb717/feature_score.csv','w') as f:
     f.writelines("feature,score,min,max,n_null,n_gt1w\n")
     f.writelines(fs)
 
