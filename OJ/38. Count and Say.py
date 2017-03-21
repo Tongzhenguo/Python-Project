@@ -15,19 +15,14 @@ Note: The sequence of integers will be represented as a string.
 
 class Solution(object):
     def countAndSay(self, n):
-        """
-        递归问题
-        初值dg[1]=1
-        map存储元素和元素出现次数
-        """
         if n == 1:return "1"
         tmp = self.countAndSay(n-1)+"*" #便于处理末尾
         res = ""
         count = 0
         for i in range(len(tmp)-1):
-            if tmp[i] == tmp[i+1]:
+            if tmp[i] == tmp[i+1]:#相同则统计
                 count += 1
-            else:
+            else: #不同输出上一个，重置统计当前
                 res += str(count+1) + tmp[i]
                 count = 0 #reset
         return res

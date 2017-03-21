@@ -7,18 +7,13 @@ If the last word does not exist, return 0.
 
 class Solution(object):
     def lengthOfLastWord(self, s):
-        """
-        """
-        s = s.strip()
+        s = s.strip() #保证句子是合理的，即开头和结尾都含有单词
         if s == "": return 0
         count = 0
         i = len(s)-1
-        while( i>=0 ):
-            if( s[i] != " " ):
-                count += 1
-                i -= 1
-            else:
-                break
+        while( i>=0 and s[i] != " "):
+            count += 1
+            i -= 1
         return count
 
 # print Solution().lengthOfLastWord(" ")
