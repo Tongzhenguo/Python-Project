@@ -5,6 +5,9 @@ from sklearn import metrics
 from scipy.spatial.distance import cdist
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
+"""
+均一性，完整性介绍：http://www.cnblogs.com/lvtianqi/p/6248003.html
+"""
 
 if __name__ == "__main__":
     y = [0, 0, 0, 1, 1, 1]
@@ -73,7 +76,8 @@ if __name__ == "__main__":
 
     """
     计算轮廓系数
-    (``a``) and the mean nearest-cluster distance (``b``) for each sample.
+    a：簇内平均距离，用于量化簇内的凝聚度
+    b:簇间最近平均距离，用于量化簇之间分离度。
     The Silhouette Coefficient for a sample is ``(b - a) / max(a,b)``.
     若SC接近-1，则样本应该被分到别的类，为0样本处于类边界，为1样本分类合理
     """
