@@ -18,7 +18,7 @@ class Solution(object):
             key1 = s[i]
             key2 = s[i+1]
             if numMap[key1] < numMap[key2]: #IV = -1 + 5
-                res += -numMap[key1]
+                res -= numMap[key1]
             else:
                 res += numMap[ key1 ]
             i += 1
