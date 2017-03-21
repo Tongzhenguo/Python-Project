@@ -17,8 +17,8 @@ class Solution(object):
         if not matrix or not matrix[0]:
             return 0
         n = len(matrix[0])
-        height = [0] * (n + 1)
-        ans = 0
+        height = [0] * (n + 1)#矩阵中各个列中1的总数
+        ans = 0 #返回结果
         for row in matrix:
             for i in xrange(n):
                 height[i] = height[i] + 1 if row[i] == '1' else 0
@@ -30,4 +30,4 @@ class Solution(object):
                     ans = max(ans, h * w)
                 stack.append(i)
         return ans
-print Solution().maximalRectangle(["10100","10111","11111","10010"])
+# print Solution().maximalRectangle(["10100","10111","11111","10010"])

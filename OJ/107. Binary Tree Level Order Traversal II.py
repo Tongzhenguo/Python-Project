@@ -25,9 +25,9 @@ class Solution(object):
         wrapList = [[]]
         self.levelMaker(wrapList, root, 0)
         return wrapList
-    def levelMaker(self,list,root,level):
+    def levelMaker(self,list,root,level):#根据题意，按left,right,root的顺序遍历
         if(root == None): return
-        if(level >= len(list) ) : list.insert(0,[]) #bottom to up
+        if(level >= len(list) ) : list.insert(0,[]) #达到最后一层
         self.levelMaker(list, root.left, level+1) #update left subtree
         self.levelMaker(list, root.right, level+1) #update right subtree
         list[ len(list)-1-level ].append(root.val) #set list
