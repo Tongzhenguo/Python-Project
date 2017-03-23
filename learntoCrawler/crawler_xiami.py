@@ -92,11 +92,11 @@ def load_part(path):
     return csv.values
 
 if __name__ == "__main__":
-    jobID = 0
+    jobID = 5
     i = 0
-    path = 'part-' #注意：这里要修改成你的目录
+    path = 'E:\pycharm\yytCrawler\data\part-'
     while( i< 337 ) :
-        if  i % 10 == jobID :
+        if  i % 10 == jobID:
             # http://www.cnblogs.com/vamei/archive/2013/03/12/2954938.html
             idx = '%05d' % i
             part = load_part( path+idx )
