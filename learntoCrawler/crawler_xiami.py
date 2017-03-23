@@ -95,29 +95,30 @@ if __name__ == "__main__":
     jobID = 0
     i = 0
     path = 'part-' #注意：这里要修改成你的目录
-    while( i< 337 and i % 10 == jobID ) :
-        # http://www.cnblogs.com/vamei/archive/2013/03/12/2954938.html
-        idx = '%05d' % i
-        part = load_part( path+idx )
+    while( i< 337 ) :
+        if  i % 10 == jobID :
+            # http://www.cnblogs.com/vamei/archive/2013/03/12/2954938.html
+            idx = '%05d' % i
+            part = load_part( path+idx )
 
-        f = open(u'yyt标签爬虫'+idx+'.csv', 'wb')
-        f.write(unicode('\xEF\xBB\xBF', 'utf-8'))   # 文件头
-        writer = csv.writer(f)
-        writer.writerow(['id','虾米歌曲', '虾米艺人', '虾米歌曲id', '虾米标签'])
-        for ll in part:
-            id,yyt_song,yyt_artist = str(ll[0]).decode('utf-8'),str(ll[1]).decode('utf-8'),str(ll[2]).decode('utf-8')
-            # print yyt_song,yyt_artist
-            try:
-                record = doJob(id,yyt_song,yyt_artist)
-                if( record ):
-                    writer.writerow(record)
-                sleep(2)
-            except:
-                print("Connection refused by the server..")
-                print("Let me sleep for 5 seconds")
-                sleep(5)
-                continue
-        f.close()
+            f = open(u'yyt标签爬虫'+idx+'.csv', 'wb')
+            f.write(unicode('\xEF\xBB\xBF', 'utf-8'))   # 文件头
+            writer = csv.writer(f)
+            writer.writerow(['id','虾米歌曲', '虾米艺人', '虾米歌曲id', '虾米标签'])
+            for ll in part:
+                id,yyt_song,yyt_artist = str(ll[0]).decode('utf-8'),str(ll[1]).decode('utf-8'),str(ll[2]).decode('utf-8')
+                # print yyt_song,yyt_artist
+                try:
+                    record = doJob(id,yyt_song,yyt_artist)
+                    if( record ):
+                        writer.writerow(record)
+                    sleep(2)
+                except:
+                    print("Connection refused by the server..")
+                    print("Let me sleep for 5 seconds")
+                    sleep(5)
+                    continue
+            f.close()
         i += 1
 
 
