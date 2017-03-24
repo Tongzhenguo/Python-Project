@@ -118,7 +118,7 @@ if __name__ == "__main__":
                         record = doJob(id,yyt_song,yyt_artist)
                         if( record ):
                             writer.writerow(record)
-                            csvfile.close()
+                            # csvfile.close()
                         sleep(2)
                     except Exception as e:
                         if hasattr(e,"code"):
@@ -131,7 +131,7 @@ if __name__ == "__main__":
                         print("Let me sleep for 5 seconds")
                         sleep(5)
                         continue
-            # csvfile.close()
+            csvfile.close()
         i += 1
 
 
