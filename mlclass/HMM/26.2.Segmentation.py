@@ -2,9 +2,6 @@
 # -*- coding:utf-8 -*-
 
 import math
-import matplotlib.pyplot as plt
-import numpy as np
-import codecs
 import random
 
 infinite = -(2**31)
@@ -243,7 +240,7 @@ def segment(sentence, decode):
 
 if __name__ == "__main__":
     pi, A, B = load_train()
-    f = file(".\\24.mybook.txt")
+    f = file(".\\26.mybook.txt")
     data = f.read()[3:].decode('utf-8')
     f.close()
     decode = viterbi(pi, A, B, data)

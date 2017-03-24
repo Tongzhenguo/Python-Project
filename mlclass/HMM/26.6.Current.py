@@ -1,13 +1,13 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
 
-import numpy as np
-from hmmlearn import hmm
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-from sklearn.preprocessing import MinMaxScaler
-import pandas as pd
 import warnings
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from hmmlearn import hmm
 
 
 def extend(a, b):

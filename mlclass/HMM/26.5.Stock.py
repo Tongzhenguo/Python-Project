@@ -1,12 +1,12 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
 
+import warnings
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 import numpy as np
 from hmmlearn import hmm
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-from sklearn.metrics.pairwise import pairwise_distances_argmin
-import warnings
 
 
 def expand(a, b):
@@ -18,7 +18,7 @@ if __name__ == "__main__":
     warnings.filterwarnings("ignore")   # hmmlearn(0.2.0) < sklearn(0.18)
 
     # 0日期  1开盘  2最高  3最低  4收盘  5成交量  6成交额
-    x = np.loadtxt('24.SH600000.txt', delimiter='\t', skiprows=2, usecols=(4, 5, 6, 2, 3))
+    x = np.loadtxt('26.SH600000.txt', delimiter='\t', skiprows=2, usecols=(4, 5, 6, 2, 3))
     close_price = x[:, 0]
     volumn = x[:, 1]
     amount = x[:, 2]

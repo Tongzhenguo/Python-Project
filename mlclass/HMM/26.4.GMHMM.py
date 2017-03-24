@@ -1,14 +1,13 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
 
+import warnings
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 import numpy as np
 from hmmlearn import hmm
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib import cm
 from sklearn.metrics.pairwise import pairwise_distances_argmin
-import warnings
 
 
 def expand(a, b):

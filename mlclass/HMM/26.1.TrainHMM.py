@@ -2,10 +2,6 @@
 # -*- coding:utf-8 -*-
 
 import math
-import matplotlib.pyplot as plt
-import numpy as np
-import codecs
-import random
 
 infinite = float(-2**31)
 
@@ -148,12 +144,12 @@ def mle():  # 0B/1M/2E/3S
     pi = [0] * 4   # npi[i]：i状态的个数
     a = [[0] * 4 for x in range(4)]     # na[i][j]：从i状态到j状态的转移个数
     b = [[0]* 65536 for x in range(4)]  # nb[i][o]：从i状态到o字符的个数
-    f = file(".\\24.pku_training.utf8")
+    f = file(".\\26.pku_training.utf8")
     data = f.read()[3:].decode('utf-8')
     f.close()
     tokens = data.split('  ')
     # 增加英文词训练集
-    f = file('24.Englishword.train')
+    f = file('26.Englishword.train')
     data = f.read().decode('utf-8')
     f.close()
     tokens.extend(data.split(' '))
