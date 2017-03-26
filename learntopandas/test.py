@@ -1,6 +1,7 @@
 # coding=utf-8
 """
     翻译自：http://pandas.pydata.org/pandas-docs/stable/10min.html
+    http://pandas.pydata.org/pandas-docs/stable/merging.html
 """
 
 import numpy as np
@@ -8,18 +9,18 @@ import pandas as pd
 
 ### 一、创建对象
 ## 1.可以传递一个list对象创建一个Series,Pandas会默认创建整型索引
-s = pd.Series([1, 3, 5, np.nan, 6, 8])
+# s = pd.Series([1, 3, 5, np.nan, 6, 8])
 # print s
 
 ## 2.通过传递一个numpy array,时间索引以及列标签来创建一个DataFrame
-dates = pd.date_range('20130101', periods=6)
+# dates = pd.date_range('20130101', periods=6)
 # print dates
-df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list("ABCD"))
+# df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list("ABCD"))
 # print df
 ## 3.通过传递一个能够被转换成类似序列结构的字典对象来创建一个DataFrame
-df2 = pd.DataFrame({"A": 1, "B": pd.Timestamp('20130102'), "C": pd.Series(1, index=list(range(4)), dtype="float32"),
-                    "D": np.array([3] * 4, dtype="int32"), "E": pd.Categorical(["test", "train", "test", "train"]),
-                    "F": "foo"})
+# df2 = pd.DataFrame({"A": 1, "B": pd.Timestamp('20130102'), "C": pd.Series(1, index=list(range(4)), dtype="float32"),
+#                     "D": np.array([3] * 4, dtype="int32"), "E": pd.Categorical(["test", "train", "test", "train"]),
+#                     "F": "foo"})
 # print df2
 
 ### 二、查看数据
@@ -107,10 +108,11 @@ df2 = pd.DataFrame({"A": 1, "B": pd.Timestamp('20130102'), "C": pd.Series(1, ind
 # print df
 
 ## reindex对索引进行改变/新增/删除(未赋值就是pd.nan)
-df1 = df.reindex(index=dates[0:4], columns=list(df.columns) + ["E"])
+# df1 = df.reindex(index=dates[0:4], columns=list(df.columns) + ["E"])
 # print df1
 
 ### 四、缺失值处理（pandas使用np.nan代替缺失值，默认不会计算）
+## 1.去掉包含缺失值的行
 ## 1.去掉包含缺失值的行
 # print df1.dropna(how="any")
 
@@ -134,6 +136,8 @@ df1 = df.reindex(index=dates[0:4], columns=list(df.columns) + ["E"])
 # print pd.concat(piece)  ##默认axis=0是上下连接
 # piece = [ df.loc[ :,["A","B"] ],df.loc[ :,["C","D"] ] ]
 # print pd.concat(piece,axis=1) ##1是左右连接
+#更高级拼接操作：http://pandas.pydata.org/pandas-docs/stable/merging.html
+# result = pd.concat([df1, df4], axis=1, join='inner')
 
 ## 2.联表操作（join,merge）
 # left = pd.DataFrame( {
@@ -147,6 +151,7 @@ df1 = df.reindex(index=dates[0:4], columns=list(df.columns) + ["E"])
 # print pd.merge(left,right,how="right",left_on=left.key,right_on=right.key) ##右联
 # print pd.merge(left,right,how="outer",left_on=left.key,right_on=right.key)  ##全外联
 # print left.set_index("key").join([right.set_index("key")], how="outer")  ##join根据索引连接
+# print "多列名做为内链接的连接键\r\n",merge(data,data2,on=("name","id"))
 
 ## 3.append(追加)
 # print df.append(other=[df,df]) ##只能上下联接
@@ -159,30 +164,30 @@ df1 = df.reindex(index=dates[0:4], columns=list(df.columns) + ["E"])
 
 ### 七、Reshaping
 # 1.Stack
-tuples = list(zip(*[['bar', 'bar', 'baz', 'baz',
-                     'foo', 'foo', 'qux', 'qux'],
-                    ['one', 'two', 'one', 'two',
-                    'one', 'two', 'one', 'two']]))
-index = pd.MultiIndex.from_tuples(tuples, names=['first', 'second'])
-df = pd.DataFrame(np.random.randn(8, 2), index=index, columns=['A', 'B'])
-df2 = df[:4]
-print df2
-# The stack function “compresses” a level in the DataFrame’s columns to produce either:
-# A Series, in the case of a simple column Index
-# A DataFrame, in the case of a MultiIndex in the columns
-stacked = df2.stack()
-print stacked
-print stacked.unstack()
-print stacked.unstack(1)
-print stacked.unstack(0)
+# tuples = list(zip(*[['bar', 'bar', 'baz', 'baz',
+#                      'foo', 'foo', 'qux', 'qux'],
+#                     ['one', 'two', 'one', 'two',
+#                     'one', 'two', 'one', 'two']]))
+# index = pd.MultiIndex.from_tuples(tuples, names=['first', 'second'])
+# df = pd.DataFrame(np.random.randn(8, 2), index=index, columns=['A', 'B'])
+# df2 = df[:4]
+# print df2
+# # The stack function “compresses” a level in the DataFrame’s columns to produce either:
+# # A Series, in the case of a simple column Index
+# # A DataFrame, in the case of a MultiIndex in the columns
+# stacked = df2.stack()
+# print stacked
+# print stacked.unstack()
+# print stacked.unstack(1)
+# print stacked.unstack(0)
 
 ## 2.数据透视表
 # print pd.pivot_table(df,values="D",index=["A","B"],columns="C")
 
 ### 八、时间序列
-# rng = pd.date_range("1/1/2012", periods=100, freq="S")
-# ts = pd.Series(np.random.randn(0, 500, len(rng)), index=rng)
-# print ts.resample("5Min",how="sum")
+rng = pd.date_range("1/1/2012", periods=100, freq="S")
+ts = pd.Series(np.random.randn(0, 500, len(rng)), index=rng)
+print ts.resample("5Min",how="sum")
 
 ### 九、Categorical类型
 ## http://pandas.pydata.org/pandas-docs/stable/categorical.html#categorical

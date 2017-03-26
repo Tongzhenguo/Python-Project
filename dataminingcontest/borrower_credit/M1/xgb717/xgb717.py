@@ -1,12 +1,14 @@
+# coding=utf-8
 """
 Author: wepon (http://2hwp.com)
 """
 print(__doc__)
 
+import sys
+
 import pandas as pd
 import xgboost as xgb
 from sklearn.cross_validation import train_test_split
-import sys
 
 path = "E:\Python-Project\dataset\\borrower_credit\\"
 random_seed = 1225
