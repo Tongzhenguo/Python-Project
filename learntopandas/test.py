@@ -9,18 +9,18 @@ import pandas as pd
 
 ### 一、创建对象
 ## 1.可以传递一个list对象创建一个Series,Pandas会默认创建整型索引
-# s = pd.Series([1, 3, 5, np.nan, 6, 8])
+s = pd.Series([1, 3, 5, np.nan, 6, 8])
 # print s
 
 ## 2.通过传递一个numpy array,时间索引以及列标签来创建一个DataFrame
-# dates = pd.date_range('20130101', periods=6)
+dates = pd.date_range('20130101', periods=6)
 # print dates
-# df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list("ABCD"))
+df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list("ABCD"))
 # print df
 ## 3.通过传递一个能够被转换成类似序列结构的字典对象来创建一个DataFrame
-# df2 = pd.DataFrame({"A": 1, "B": pd.Timestamp('20130102'), "C": pd.Series(1, index=list(range(4)), dtype="float32"),
-#                     "D": np.array([3] * 4, dtype="int32"), "E": pd.Categorical(["test", "train", "test", "train"]),
-#                     "F": "foo"})
+df2 = pd.DataFrame({"A": 1, "B": pd.Timestamp('20130102'), "C": pd.Series(1, index=list(range(4)), dtype="float32"),
+                    "D": np.array([3] * 4, dtype="int32"), "E": pd.Categorical(["test", "train", "test", "train"]),
+                    "F": "foo"})
 # print df2
 
 ### 二、查看数据
@@ -113,7 +113,6 @@ import pandas as pd
 
 ### 四、缺失值处理（pandas使用np.nan代替缺失值，默认不会计算）
 ## 1.去掉包含缺失值的行
-## 1.去掉包含缺失值的行
 # print df1.dropna(how="any")
 
 ## 2.对缺失值进行填充
@@ -191,9 +190,9 @@ import pandas as pd
 # print pd.pivot_table(df,values="D",index=["A","B"],columns="C")
 
 ### 八、时间序列
-rng = pd.date_range("1/1/2012", periods=100, freq="S")
-ts = pd.Series(np.random.randn(0, 500, len(rng)), index=rng)
-print ts.resample("5Min",how="sum")
+# rng = pd.date_range("1/1/2012", periods=100, freq="S")
+# ts = pd.Series(np.random.randn(0, 500, len(rng)), index=rng)
+# print ts.resample("5Min",how="sum")
 
 ### 九、Categorical类型
 ## http://pandas.pydata.org/pandas-docs/stable/categorical.html#categorical
@@ -201,5 +200,37 @@ print ts.resample("5Min",how="sum")
 ## http://pandas.pydata.org/pandas-docs/stable/visualization.html#visualization
 
 ### 十一、导入和保存数据
-df.to_csv("data.csv")
-csv = df.read_csv("data.csv")
+# df.to_csv("data.csv")
+# csv = df.read_csv("data.csv")
+
+#排序相关
+
+print df2.sort_values(['C'],ascending=False)
+
+# Compute numerical data ranks (1 through n) along axis
+
+"""
+Compute numerical data ranks (1 through n) along axis. Equal values are
+    axis: {0 or 'index', 1 or 'columns'}, default 0
+    method : {'average', 'min', 'max', 'first', 'dense'}
+        * average: average rank of group
+        * min: lowest rank in group
+        * max: highest rank in group
+        * first: ranks assigned in order they appear in the array
+        * dense: like 'min', but rank always increases by 1 between groups
+    ascending : boolean, default True
+    pct : boolean, default False
+
+"""
+df2 = pd.DataFrame(columns=["A",'B'])
+df2.A = [1,2,2,3]
+df2.B = [3,2,1,1]
+# print df2，如果单列，是对单列值进行排名
+#不保证排名连续
+# print df2['A'].rank(axis=0,method='max',ascending=False)
+#保证排名连续
+# print df2['A'].rank(axis=0,method='dense',ascending=False)
+
+#如果是多列值,只保证第一列的降序，并且排名值不是整数，慎用
+# print df2.rank(axis=1,method='average',ascending=False)
+# print df2.rank(axis=0,method='average',ascending=False)
