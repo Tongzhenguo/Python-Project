@@ -122,6 +122,12 @@ import pandas as pd
 ## 3.判断缺失值
 # print  pd.isnull()
 
+#4.删除重复数据
+# DataFrame的duplicated方法返回一个布尔型Series,表示各行是否重复行。
+# 而 drop_duplicates方法，它用于返回一个移除了重复行的DataFrame
+
+# data.drop_duplicates(inplace=True) 或者data = data.drop_duplicates()
+
 ## 五、相关操作
 ##apply(对数据应用函数）
 # print df.apply(np.cumsum)##累积和
