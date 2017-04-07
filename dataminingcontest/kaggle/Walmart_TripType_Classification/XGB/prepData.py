@@ -173,7 +173,7 @@ def getVariables(name, grouped_df, train=0):
 
 
 if __name__ == "__main__":
-    data_path = "../Data/"
+    data_path = "E:\Python-Project\dataminingcontest\kaggle\Walmart_TripType_Classification\walmart-input\\"
     train_file = data_path + "train.csv"
     test_file = data_path + "test.csv"
     train_out_file = data_path + "train_mod_v5.csv"
