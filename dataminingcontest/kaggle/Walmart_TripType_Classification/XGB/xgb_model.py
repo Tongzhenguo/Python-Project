@@ -111,7 +111,7 @@ def runXGB(train_X, train_y):
 if __name__ == "__main__":
     # setting the input path and reading the data into dataframe #
     print "Reading data.."
-    data_path = "../Data/"
+    data_path = "E:\Python-Project\dataminingcontest\kaggle\Walmart_TripType_Classification\walmart-input"
     train_X = getData(data_path + "train_mod_v5.csv")
     train_y = np.array(pd.read_csv(data_path + "train_mod_v5_dv.csv")["DV"])
     print "Train shape : ", train_X.shape

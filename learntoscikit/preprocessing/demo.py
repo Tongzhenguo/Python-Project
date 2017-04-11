@@ -1,7 +1,10 @@
 # coding=utf-8
-__author__ = 'arachis'
-
+from learntoscikit.LRforFeatureSelect import iris
 from sklearn import preprocessing
+from numpy import vstack, array, nan
+from sklearn.preprocessing import Imputer
+
+__author__ = 'arachis'
 
 """
     缺失值处理（填充负值，填充中值，填充众数，剔除，单独作为一个特征）
@@ -16,6 +19,19 @@ df1 = df.reindex(index=dates[0:4], columns=list(df.columns) + ["E"])
 # df1.fillna(-1)  ##填充负值
 df1.dropna() ## 剔除
 
+#缺失值计算，返回值为计算缺失值后的数据
+#参数missing_value为缺失值的表示形式，默认为NaN
+#参数strategy为缺失值填充方式，默认为mean（均值）
+# strategy : string, optional (default="mean")
+#         The imputation strategy.
+#
+#         - If "mean", then replace missing values using the mean along
+#           the axis.
+#         - If "median", then replace missing values using the median along
+#           the axis.
+#         - If "most_frequent", then replace missing using the most frequent
+#           value along the axis.
+print Imputer().fit_transform( vstack((array([nan, nan, nan, nan]), iris.data)) )
 
 """
     异常值处理（剔除）
@@ -93,9 +109,17 @@ print le.transform(["tokyo", "tokyo", "paris"])
 # （x1,x2） => (1,x1,x2,x1^2,x1*x2,x2^2)
 from sklearn.preprocessing import PolynomialFeatures
 X = np.arange(6).reshape(3, 2)
-poly = PolynomialFeatures(2)
+poly = PolynomialFeatures(2)#自由度为2
 print poly.fit_transform(X)
 
+"""
+    生成自定义特征转换（FunctionTransformer）
+"""
+from numpy import log1p
+from sklearn.preprocessing import FunctionTransformer
+#自定义转换函数为对数函数的数据变换
+#第一个参数是单变元函数
+print( FunctionTransformer(log1p).fit_transform(iris.data) )
 
 
 """
@@ -103,4 +127,32 @@ print poly.fit_transform(X)
 """
 from sklearn.feature_selection import VarianceThreshold
 sel = VarianceThreshold(threshold=(.8 * (1 - .8)))
-sel.fit_transform(X)
+print sel.fit_transform(X)
+
+"""
+    相关性分析（皮尔逊相关系数）
+"""
+from sklearn.feature_selection import SelectKBest
+from scipy.stats import pearsonr
+
+#选择K个最好的特征，返回选择特征后的数据
+#第一个参数为计算评估特征是否好的函数，该函数输入特征矩阵和目标向量，输出二元组（评分，P值）的数组，
+#数组第i项为第i个特征的评分和P值。在此定义为计算相关系数
+#参数k为选择的特征个数
+def calc(X,Y):
+    ls = []
+    for x in X.T:
+        ls.append( pearsonr(x, Y) )
+    return array(ls)
+print SelectKBest(calc, k=2).fit_transform(iris.data, iris.target)
+
+"""
+    相关性分析（互信息法）
+"""
+# from sklearn.feature_selection import SelectKBest
+# #由于MINE的设计不是函数式的，定义mic方法将其为函数式的，返回一个二元组，二元组的第2项设置成固定的P值0.5
+# def calc_entropy(x, y):
+#     pass
+# #选择K个最好的特征，返回特征选择后的数据
+# print SelectKBest(calc_entropy, k=2).fit_transform(iris.data, iris.target)
+

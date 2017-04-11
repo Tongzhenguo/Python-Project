@@ -125,7 +125,8 @@ df2 = pd.DataFrame({"A": 1, "B": pd.Timestamp('20130102'), "C": pd.Series(1, ind
 # DataFrame的duplicated方法返回一个布尔型Series,表示各行是否重复行。
 # 而 drop_duplicates方法，它用于返回一个移除了重复行的DataFrame
 
-# data.drop_duplicates(inplace=True) 或者data = data.drop_duplicates()
+# df.drop_duplicates(inplace=True) 或者data = data.drop_duplicates()
+# df = df.drop_duplicates('user_id')
 
 ## 五、相关操作
 ##apply(对数据应用函数）
@@ -227,7 +228,11 @@ df2.A = [1,2,2,3]
 df2.B = [3,2,1,1]
 # print df2，如果单列，是对单列值进行排名
 #不保证排名连续
-# print df2['A'].rank(axis=0,method='max',ascending=False)
+print df2.A
+#降序，值最低对应排名值越高，最高排名值是1
+print df2['A'].rank(axis=0,method='max',ascending=False)
+#默认升序，值最高对应排名值越高，最高排名是N
+print df2['A'].rank(axis=0,method='max',ascending=True)
 #保证排名连续
 # print df2['A'].rank(axis=0,method='dense',ascending=False)
 
