@@ -100,7 +100,7 @@ df2 = pd.DataFrame({"A": 1, "B": pd.Timestamp('20130102'), "C": pd.Series(1, ind
 ##布尔索引：2.使用where操作来选择数据
 # print df[ df > 0]
 
-##布尔索引：3.使用isin()方法来过滤
+##布尔索引：3.使用isin()选出特定列中包含特定值的行
 # print df2[df2["E"].isin( ["test"] )]
 
 ##设置：通过一个numpy数组设置一组新值

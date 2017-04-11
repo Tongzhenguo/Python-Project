@@ -1,8 +1,9 @@
 # /usr/bin/python
 # -*- encoding:utf-8 -*-
 
-import xgboost as xgb
 import numpy as np
+import xgboost as xgb
+
 
 # 1、xgBoost的基本使用
 # 2、自定义损失函数的梯度和二阶导
@@ -29,7 +30,7 @@ if __name__ == "__main__":
     # print type(data_train)
 
     # 设置参数
-    param = {'max_depth': 2, 'eta': 1,  'objective': 'binary:logistic'} # logitraw
+    param = {'max_depth': 2, 'eta': 1,  'objective': 'binary:logistic','scale_pos_weight':10} # logitraw
     # param = {'max_depth': 3, 'eta': 0.3,  'objective': 'reg:logistic'}
     watchlist = [(data_test, 'eval'), (data_train, 'train')]
     n_round = 3
