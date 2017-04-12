@@ -11,7 +11,7 @@ class Solution(object):
         cur = head.next
         while(cur != None):
             pre.next = cur.next #保存后面的节点
-            cur.next = head #
+            cur.next = head #反转
             head = cur#更新头节点
             cur = pre.next#更新移动节点
         return head
