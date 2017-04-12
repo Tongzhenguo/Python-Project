@@ -1,22 +1,19 @@
+# coding=utf-8
 from datastructure.ListNode import ListNode
 
 __author__ = 'arachis'
 
 class Solution(object):
     def reverseList(self, head):
-        """
-        :type head: ListNode
-        :rtype: ListNode
-        """
         if head == None or head.next == None:
             return head
-        p = head
-        q = head.next
-        while(q != None):
-            p.next = q.next
-            q.next = head
-            head = q
-            q = p.next
+        pre = head
+        cur = head.next
+        while(cur != None):
+            pre.next = cur.next #保存后面的节点
+            cur.next = head #
+            head = cur#更新头节点
+            cur = pre.next#更新移动节点
         return head
 
 if __name__ == "__main__":
