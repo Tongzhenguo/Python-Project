@@ -10,69 +10,69 @@ from sklearn.cluster import KMeans
 """
 
 if __name__ == "__main__":
-    y = [0, 0, 0, 1, 1, 1]
-    y_hat = [0, 0, 1, 1, 2, 2]
-    h = metrics.homogeneity_score(y, y_hat)
-    c = metrics.completeness_score(y, y_hat)
-    print u'同一性(Homogeneity)：', h
-    print u'完整性(Completeness)：', c
-    v2 = 2 * c * h / (c + h)
-    v = metrics.v_measure_score(y, y_hat)
-    print u'V-Measure：', v2, v
+    # y = [0, 0, 0, 1, 1, 1]
+    # y_hat = [0, 0, 1, 1, 2, 2]
+    # h = metrics.homogeneity_score(y, y_hat)
+    # c = metrics.completeness_score(y, y_hat)
+    # print u'同一性(Homogeneity)：', h
+    # print u'完整性(Completeness)：', c
+    # v2 = 2 * c * h / (c + h)
+    # v = metrics.v_measure_score(y, y_hat)
+    # print u'V-Measure：', v2, v
+    #
+    # print
+    # y = [0, 0, 0, 1, 1, 1]
+    # y_hat = [0, 0, 1, 2, 3, 3]
+    # h = metrics.homogeneity_score(y, y_hat)
+    # c = metrics.completeness_score(y, y_hat)
+    # v = metrics.v_measure_score(y, y_hat)
+    # print u'同一性(Homogeneity)：', h
+    # print u'完整性(Completeness)：', c
+    # print u'V-Measure：', v
+    #
+    # # 允许不同值
+    # print
+    # y = [0, 0, 0, 1, 1, 1]
+    # y_hat = [1, 1, 1, 0, 0, 0]
+    # h = metrics.homogeneity_score(y, y_hat)
+    # c = metrics.completeness_score(y, y_hat)
+    # v = metrics.v_measure_score(y, y_hat)
+    # print u'同一性(Homogeneity)：', h
+    # print u'完整性(Completeness)：', c
+    # print u'V-Measure：', v
+    #
+    # y = [0, 0, 1, 1]
+    # y_hat = [0, 1, 0, 1]
+    # ari = metrics.adjusted_rand_score(y, y_hat)
+    # print ari
+    #
+    # y = [0, 0, 0, 1, 1, 1]
+    # y_hat = [0, 0, 1, 1, 2, 2]
+    # ari = metrics.adjusted_rand_score(y, y_hat)
+    # print ari
 
-    print
-    y = [0, 0, 0, 1, 1, 1]
-    y_hat = [0, 0, 1, 2, 3, 3]
-    h = metrics.homogeneity_score(y, y_hat)
-    c = metrics.completeness_score(y, y_hat)
-    v = metrics.v_measure_score(y, y_hat)
-    print u'同一性(Homogeneity)：', h
-    print u'完整性(Completeness)：', c
-    print u'V-Measure：', v
 
-    # 允许不同值
-    print
-    y = [0, 0, 0, 1, 1, 1]
-    y_hat = [1, 1, 1, 0, 0, 0]
-    h = metrics.homogeneity_score(y, y_hat)
-    c = metrics.completeness_score(y, y_hat)
-    v = metrics.v_measure_score(y, y_hat)
-    print u'同一性(Homogeneity)：', h
-    print u'完整性(Completeness)：', c
-    print u'V-Measure：', v
-
-    y = [0, 0, 1, 1]
-    y_hat = [0, 1, 0, 1]
-    ari = metrics.adjusted_rand_score(y, y_hat)
-    print ari
-
-    y = [0, 0, 0, 1, 1, 1]
-    y_hat = [0, 0, 1, 1, 2, 2]
-    ari = metrics.adjusted_rand_score(y, y_hat)
-    print ari
-
-
-    #计算畸变程度
-    cluster1 = np.random.uniform(0.5, 1.5, (2, 10))
-    cluster2 = np.random.uniform(3.5, 4.5, (2, 10))
-    X = np.hstack((cluster1, cluster2)).T
-
-    plt.figure()
-    plt.axis([0, 5, 0, 5])
-    plt.grid(True)
-    plt.plot(X[:, 0], X[:, 1], 'k.')
-
-    K = range(1, 10)
-    meandistortions = []
-    for k in K:
-        kmeans = KMeans(n_clusters=k)
-        kmeans.fit(X)
-        meandistortions.append(sum(np.min(cdist(X, kmeans.cluster_centers_, 'euclidean'), axis=1)) / X.shape[0])
-
-    plt.plot(K, meandistortions, 'bx-')
-    plt.xlabel('K')
-    plt.ylabel('distortion')
-    plt.show()
+    # #计算畸变程度
+    # cluster1 = np.random.uniform(0.5, 1.5, (2, 10))
+    # cluster2 = np.random.uniform(3.5, 4.5, (2, 10))
+    # X = np.hstack((cluster1, cluster2)).T
+    #
+    # plt.figure()
+    # plt.axis([0, 5, 0, 5])
+    # plt.grid(True)
+    # plt.plot(X[:, 0], X[:, 1], 'k.')
+    #
+    # K = range(1, 10)
+    # meandistortions = []
+    # for k in K:
+    #     kmeans = KMeans(n_clusters=k)
+    #     kmeans.fit(X)
+    #     meandistortions.append(sum(np.min(cdist(X, kmeans.cluster_centers_, 'euclidean'), axis=1)) / X.shape[0])
+    #
+    # plt.plot(K, meandistortions, 'bx-')
+    # plt.xlabel('K')
+    # plt.ylabel('distortion')
+    # plt.show()
 
     """
     计算轮廓系数
@@ -87,11 +87,10 @@ if __name__ == "__main__":
 
     colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'b']
     markers = ['o', 's', 'D', 'v', '^', 'p', '*', '+']
-    subplot_counter = 1
-
-    for t in [2,3,5]:
+    subplot_counter = 0
+    for t in [2,3,5,8]:
         subplot_counter = subplot_counter + 1
-        plt.subplot(3, 2, subplot_counter)
+        plt.subplot(2, 2, subplot_counter)
         kmeans_model = KMeans(n_clusters=t).fit(X)
         for i, l in enumerate(kmeans_model.labels_):
             plt.plot(x1[i], x2[i], color=colors[l], \
