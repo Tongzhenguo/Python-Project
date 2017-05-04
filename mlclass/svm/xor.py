@@ -4,11 +4,14 @@ from sklearn import svm
 import pandas as pd
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
+import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
 
     data = pd.read_csv('test.csv')
     print( data.head() )
+    data[['d1','label']].plot()
+    # plt.show()
 
     x = data[['d1','d2']].values
     y = data['label'].values
