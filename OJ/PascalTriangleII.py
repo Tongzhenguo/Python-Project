@@ -11,7 +11,7 @@ Could you optimize your algorithm to use only O(k) extra space?
 简单翻译就是输入k,返回杨辉三角（Pascal's triangle）的第k层的元素
 
 链接：https://leetcode.com/problems/pascals-triangle-ii/
-杨辉三角维基百科：https://zh.wikipedia.org/wiki/奇异值分解
+杨辉三角维基百科：https://zh.wikipedia.org/wiki/杨辉三角形
 """
 class Solution(object):
     def getNum(self,i, j):#这个回报超时
@@ -35,10 +35,7 @@ class Solution(object):
         return val
 
     def getRow(self, rowIndex):
-        """
-        :type rowIndex: int
-        :rtype: List[int]
-        """
+        #解法：每一行对应的各元素就是Comb( rowIndex,i ),i从1到rowIndex
         res = [1] * (rowIndex+1)
         half = (rowIndex + 1) / 2
         for i in range(1, half+1,1):## 左右对称
@@ -47,4 +44,4 @@ class Solution(object):
         return res
 
 #this is a test
-print Solution().getRow(10)
+# print Solution().getRow(10)
