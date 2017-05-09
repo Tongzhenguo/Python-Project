@@ -3,24 +3,25 @@
     翻译自：http://pandas.pydata.org/pandas-docs/stable/10min.html
     http://pandas.pydata.org/pandas-docs/stable/merging.html
 """
+from itertools import permutations
 
 import numpy as np
 import pandas as pd
 
 ### 一、创建对象
 ## 1.可以传递一个list对象创建一个Series,Pandas会默认创建整型索引
-s = pd.Series([1, 3, 5, np.nan, 6, 8])
+# s = pd.Series([1, 3, 5, np.nan, 6, 8])
 # print s
 
 ## 2.通过传递一个numpy array,时间索引以及列标签来创建一个DataFrame
-dates = pd.date_range('20130101', periods=6)
+# dates = pd.date_range('20130101', periods=6)
 # print dates
-df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list("ABCD"))
+# df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list("ABCD"))
 # print df
 ## 3.通过传递一个能够被转换成类似序列结构的字典对象来创建一个DataFrame
-df2 = pd.DataFrame({"A": 1, "B": pd.Timestamp('20130102'), "C": pd.Series(1, index=list(range(4)), dtype="float32"),
-                    "D": np.array([3] * 4, dtype="int32"), "E": pd.Categorical(["test", "train", "test", "train"]),
-                    "F": "foo"})
+# df2 = pd.DataFrame({"A": 1, "B": pd.Timestamp('20130102'), "C": pd.Series(1, index=list(range(4)), dtype="float32"),
+#                     "D": np.array([3] * 4, dtype="int32"), "E": pd.Categorical(["test", "train", "test", "train"]),
+#                     "F": "foo"})
 # print df2
 
 ### 二、查看数据
@@ -168,6 +169,17 @@ df2 = pd.DataFrame({"A": 1, "B": pd.Timestamp('20130102'), "C": pd.Series(1, ind
 # print df.groupby(['A', 'B'])['C'].mean()
 # print df.groupby(df["A"])
 
+#groupby 高级功能
+df = pd.DataFrame({'user_id': [1, 1, 1, 2, 2],
+                   'item_id': [1,2,3,1,2]}
+                  )
+# print df
+user_groups = df.groupby(['user_id'])
+for name,group in user_groups:
+    print name
+    print list(group['item_id'].values)
+    print list( permutations( list(group['item_id'].values),2 ) )
+
 ### 七、Reshaping
 # 1.Stack
 # tuples = list(zip(*[['bar', 'bar', 'baz', 'baz',
@@ -206,7 +218,7 @@ df2 = pd.DataFrame({"A": 1, "B": pd.Timestamp('20130102'), "C": pd.Series(1, ind
 
 #排序相关
 
-print df2.sort_values(['C'],ascending=False)
+# print df2.sort_values(['C'],ascending=False)
 
 # Compute numerical data ranks (1 through n) along axis
 
@@ -223,16 +235,16 @@ Compute numerical data ranks (1 through n) along axis. Equal values are
     pct : boolean, default False
 
 """
-df2 = pd.DataFrame(columns=["A",'B'])
-df2.A = [1,2,2,3]
-df2.B = [3,2,1,1]
+# df2 = pd.DataFrame(columns=["A",'B'])
+# df2.A = [1,2,2,3]
+# df2.B = [3,2,1,1]
 # print df2，如果单列，是对单列值进行排名
 #不保证排名连续
-print df2.A
+# print df2.A
 #降序，值最低对应排名值越高，最高排名值是1
-print df2['A'].rank(axis=0,method='max',ascending=False)
+# print df2['A'].rank(axis=0,method='max',ascending=False)
 #默认升序，值最高对应排名值越高，最高排名是N
-print df2['A'].rank(axis=0,method='max',ascending=True)
+# print df2['A'].rank(axis=0,method='max',ascending=True)
 #保证排名连续
 # print df2['A'].rank(axis=0,method='dense',ascending=False)
 
