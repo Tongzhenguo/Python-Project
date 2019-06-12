@@ -11,7 +11,7 @@
 
 
 @desc:
-
+pykafka 学习
 
 """
 
@@ -45,7 +45,7 @@ class KafkaTest(object):
         msg = consumer.consume()
         print("消费 :{}".format(msg.value.decode()))
         offset = consumer.held_offsets
-        print("当前消费者分区offset情况{}".format(offset)) # 3
+        print("当前消费者分区offset情况{}".format(offset))  # 3
 
     def balance_consumer(self, offset=0):
         """
@@ -67,6 +67,7 @@ class KafkaTest(object):
             msg = consumer.consume()
             offset = consumer.held_offsets
             print("{}, 当前消费者分区offset情况{}".format(msg.value.decode(), offset))
+
 
 if __name__ == '__main__':
     kafka_ins = KafkaTest()
